@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Résultat de la recherche</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <link rel="icon" href="V5.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+  <h1>Filmothèque</h1>
+  <div id="result">
+      <div id="resultTitleContainer">
+          <h2 id="resultTitle">Film par [Réalisateur] :<br> Temps de recherche : [temps]</h2>
+      </div>
+      <div id="resultContentContainer1">
+          <div class="resultContent">
+            <div class="card">
+                Titre : [titre]<br>
+                Durée : [durée]<br>
+                Catégorie : [catégorie]
+            </div>
+          </div>
+      </div>
+      <div id="resultContentContainer2">
+          <div class="resultContent">
+          </div>
+      </div>
+      <div id="resultContentContainer3">
+          <div class="resultContent">
+          </div>
+      </div>
+      <div id="resultContentContainer4">
+          <div class="resultContent">
+          </div>
+      </div>
+  </div>
+  <button class="searchButton" id="returnToHome" onclick="returnToHome()">Retourner à l'accueil</button><br>
+  <button id="stop stopResult" onclick="stopServer()">Couper le serveur</button>
+  <div id="bottom">
+    <p>Created by Louis MARVILLET, Herman MARZELIERE, Félix MARQUET<br>
+      <br>The source code is available <a href="https://github.com/BreizhHardware/projetCGroupe8">here</a></p>
+  </div>
+</body>
+</html>
