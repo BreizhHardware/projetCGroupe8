@@ -3,3 +3,20 @@ Dayton;Eater's Three Train;199;Western
 Dayton;Plagues and Spaces ;126;Animation
 Dayton;Affair Key;339;Adventure
 Dayton;The Revealing Patch;301;Animation
+Dayton;Children's Darkness Floor;230;Documentary
+Dayton;The Closed Gallows;366;Parody
+Dayton;Place's Slab;166;Musical
+Dayton;The Wolfhound and the Fate;205;Western
+Dayton;Humanborn;129;Animation
+Dayton;The PreyBullet;188;Suspense
+Dayton;Oona, the West Amulet;256;War
+Dayton;Lovecraft, the Wrath Door;174;Disaster
+Dayton;Patrol and a God;219;Animation
+Dayton;A Thunder Had;340;Thriller
+Dayton;Chain and the Eternal Water;141;Drama
+Dayton;After the Engine and the People;330;Science Fiction
+Dayton;Bus and the Damned Rat;148;Fantasy
+Dayton;The Fangs's Cell;181;Action
+Dayton;In the Empire;280;Animation
+Dayton;Infernoborn;83;Thriller
+Dayton;Into the Undead Blonde;164;Western

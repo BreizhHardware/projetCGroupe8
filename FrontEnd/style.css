@@ -110,6 +110,7 @@ h1{
     padding: 2%;
     transition: background-color 0.3s ease-in-out;
     border-radius: 10px;
+    box-shadow: #b0b2b9 0px 0px 10px 0px;
 }
 
 .card:hover{

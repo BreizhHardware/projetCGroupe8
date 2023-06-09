@@ -1,15 +1,32 @@
-#ifndef PROJETCGROUPE8_MAIN_CELL_H
-#define PROJETCGROUPE8_MAIN_CELL_H
+//
+// Created by felix on 20/01/23.
+//
 
-#include <stdbool.h>
+#ifndef _CELL_H
+#define _CELL_H
+
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+
+//Structure à utiliser
 
 struct Cell{
-    char* name;
-    int time;
-    char* categorie;
+    int value;
     struct Cell* next;
 };
 
-#endif //PROJETCGROUPE8_MAIN_CELL_H
+struct Cell* createCell(int val);
+struct Cell* addFirst(struct Cell* head, int value);
+bool isListEmpty(struct Cell* head);
+int getItemPos(struct Cell* head, unsigned int position, bool* valid);
+struct Cell* deleteFirst(struct Cell* head);
+void printList(struct Cell* head);
+unsigned int listSize(struct Cell* head);
+struct Cell* addItemPos(struct Cell* head, int val, unsigned int pos, bool* valid);
+struct Cell* deleteItemPos(struct Cell* head, unsigned int pos, bool* valid);
+void deleteAll(struct Cell** head);
+struct Cell* createListFromArray(int A[], unsigned int size);
+struct Cell* belongs(struct Cell* head, int value);
+
+#endif //_CELL_H
