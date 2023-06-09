@@ -95,18 +95,41 @@ function lockFilmButton(){
 }
 
 function unlockDirectorButton(){
+    document.getElementById("duree").value = "";
+    document.getElementById("categorie").value = "";
+    document.getElementById("film").value = "";
+    document.getElementById("dureeButton").disabled = true;
+    document.getElementById("categorieButton").disabled = true;
+    document.getElementById("filmButton").disabled = true;
     document.getElementById("directorButton").disabled = false;
 }
 
 function unlockDureeButton(){
+    document.getElementById("director").value = "";
+    document.getElementById("categorie").value = "";
+    document.getElementById("film").value = "";
+    document.getElementById("directorButton").disabled = true;
+    document.getElementById("categorieButton").disabled = true;
+    document.getElementById("filmButton").disabled = true;
     document.getElementById("dureeButton").disabled = false;
 }
 
 function unlockCategorieButton(){
+    document.getElementById("director").value = "";
+    document.getElementById("duree").value = "";
+    document.getElementById("film").value = "";
+    document.getElementById("directorButton").disabled = true;
+    document.getElementById("dureeButton").disabled = true;
     document.getElementById("categorieButton").disabled = false;
 }
 
 function unlockFilmButton(){
+    document.getElementById("director").value = "";
+    document.getElementById("duree").value = "";
+    document.getElementById("categorie").value = "";
+    document.getElementById("directorButton").disabled = true;
+    document.getElementById("dureeButton").disabled = true;
+    document.getElementById("categorieButton").disabled = true;
     document.getElementById("filmButton").disabled = false;
 }
 

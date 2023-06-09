@@ -1,3 +1,4 @@
+// -----------fonction display-------------
 function displayDirector(){
     const queryString = window.location.search;
 
@@ -13,11 +14,14 @@ function displayDirector(){
 
         resultTitle.innerHTML = "Film par " + director + " :<br> Temps de recherche : 1ms";
 
+        readAndDisplay();
+
     }
     else{
         console.warn("Parametre director non trouvé");
     }
 }
+
 
 function displayDuree(){
     const queryString = window.location.search;
@@ -26,6 +30,7 @@ function displayDuree(){
         const duree = urlParms.get('duree');
         let resultTitle = document.getElementById("resultTitle");
         resultTitle.innerHTML = "Film de " + duree + " minutes :<br> Temps de recherche : 1ms";
+        readAndDisplay();
     }
     else{
         console.warn("Parametre duree non trouvé");
@@ -39,6 +44,7 @@ function displayCategorie(){
         const categorie = urlParms.get('categorie');
         let resultTitle = document.getElementById("resultTitle");
         resultTitle.innerHTML = "Film de la catégorie " + categorie + " :<br> Temps de recherche : 1ms";
+        readAndDisplay();
     }
     else{
         console.warn("Parametre categorie non trouvé");
@@ -52,6 +58,7 @@ function displayFilm(){
         const film = urlParms.get('film');
         let resultTitle = document.getElementById("resultTitle");
         resultTitle.innerHTML = "Film contenant " + film + " :<br> Temps de recherche : 1ms";
+        readAndDisplay();
     }
     else{
         console.warn("Parametre film non trouvé");
@@ -63,6 +70,37 @@ function displayAll(){
     if(queryString.includes("All")){
         let resultTitle = document.getElementById("resultTitle");
         resultTitle.innerHTML = "Tous les films :<br> Temps de recherche : 1ms";
+        const result = readFileByName("../BackEnd/BD_medium.txt");
+
+        // Récupère le tableau de films
+        films = result.split("\n");
+
+        if (films.length === 0) {
+            let alert = document.getElementById("result");
+            alert.innerHTML = "Aucun film trouvé";
+            alert.style.display = "block";
+            alert.style.color = "red";
+            alert.style.textAlign = "center";
+            alert.style.fontSize = "30px";
+            return; // Arrête l'exécution si aucun film n'est trouvé
+        }
+
+        // Retire le \r de chaque élément du tableau
+        for (let i = 0; i < films.length; i++) {
+            films[i] = films[i].replace("\r", "");
+        }
+
+        // Split chaque élément du tableau en un tableau de 4 éléments
+        for (let i = 0; i < films.length; i++) {
+            films[i] = films[i].split(";");
+        }
+
+        films.sort((a, b) => a[1].localeCompare(b[1]));
+
+        // Calculer le nombre total de pages
+        totalPages = Math.ceil(films.length / filmsPerPage);
+        // Afficher la première page
+        displayPage(currentPage);
     }
     else{
         console.warn("Parametre all non trouvé");
@@ -74,9 +112,21 @@ function displayMostMovies(){
     if(queryString.includes("MostMovies")){
         let resultTitle = document.getElementById("resultTitle");
         resultTitle.innerHTML = "Réalisateur avec le plus de films :<br> Temps de recherche : 1ms";
+        readAndDisplay();
     }
     else{
         console.warn("Parametre mostMovies non trouvé");
+    }
+}
+
+function displayFallBack(){
+    const queryString = window.location.search;
+    if(queryString.includes("director") === false && queryString.includes("duree") === false && queryString.includes("categorie") === false && queryString.includes("film") === false && queryString.includes("All") === false && queryString.includes("MostMovies") === false){
+        let resultTitle = document.getElementById("resultTitle");
+        resultTitle.innerHTML = "Aucun parametre trouvé";
+    }
+    else{
+        console.warn("Parametre non trouvé");
     }
 }
 
@@ -84,12 +134,7 @@ function returnToHome(){
     window.location.href = "index.html";
 }
 
-displayDirector();
-displayDuree();
-displayCategorie();
-displayFilm();
-displayAll();
-displayMostMovies();
+// ------- WRITE FILE -------
 
 function writeFile(id_form,func) {
 
@@ -140,51 +185,139 @@ function callWrite() {
     writeFile("form-findByDirector",  )
 }
 
-function readAndDisplay(){
-    const result =  readFileByName("../BackEnd/results.txt");
+// ------- READ AND DISPLAY -------
+
+let films = [];
+let currentPage = 1;
+const filmsPerPage = 20;
+
+function readAndDisplay() {
+    const result = readFileByName("../BackEnd/results.txt");
 
     // Récupère le tableau de films
-    let films = result.split("\n");
+    films = result.split("\n");
 
-    // Supprime le dernier element du tableau (vide)
-    films.pop();
-
-    // Retire le \r de chaque element du tableau
-    for(let i = 0;i<films.length;i++){
-        films[i] = films[i].replace("\r","");
+    if (films.length === 0) {
+        let alert = document.getElementById("result");
+        alert.innerHTML = "Aucun film trouvé";
+        alert.style.display = "block";
+        alert.style.color = "red";
+        alert.style.textAlign = "center";
+        alert.style.fontSize = "30px";
+        return; // Arrête l'exécution si aucun film n'est trouvé
     }
 
-    console.log(films);
+    // Retire le \r de chaque élément du tableau
+    for (let i = 0; i < films.length; i++) {
+        films[i] = films[i].replace("\r", "");
+    }
 
-    // Split chaque element du tableau en un tableau de 4 elements
-    for(let i = 0;i<films.length;i++){
+    // Split chaque élément du tableau en un tableau de 4 éléments
+    for (let i = 0; i < films.length; i++) {
         films[i] = films[i].split(";");
     }
 
-    console.log(films);
+    films.sort((a, b) => a[1].localeCompare(b[1]));
 
-    // Creation de la carte pour chaque film
+    // Calculer le nombre total de pages
+    totalPages = Math.ceil(films.length / filmsPerPage);
+    // Afficher la première page
+    displayPage(currentPage);
+}
+
+function displayPage(page) {
+    // Calculer l'indice de début et de fin des films pour la page spécifiée
+    const startIndex = (page - 1) * filmsPerPage;
+    const endIndex = startIndex + filmsPerPage;
+
+    // Obtenir les films de la page actuelle
+    const currentFilms = films.slice(startIndex, endIndex);
+
+    // Vider le contenu des conteneurs
+    clearContainers();
+
+    // Création de la carte pour chaque film de la page actuelle
     let containerIndex = 1;
+    let cardIndex = 0;
 
-    for(let i = 0; i < films.length;i++){
+    for (let i = 0; i < currentFilms.length; i++) {
         let container = document.getElementById("resultContentContainer" + containerIndex);
         let resultContent = container.querySelector(".resultContent");
 
-        if (resultContent.children.length >= 5){
+        if (resultContent.children.length >= 5) {
+            // Si le conteneur est plein (déjà 5 cartes), passer au conteneur suivant
             containerIndex++;
             container = document.getElementById("resultContentContainer" + containerIndex);
             resultContent = container.querySelector(".resultContent");
         }
 
-        addCard(resultContent, films[i][0], films[i][1], films[i][2], films[i][3]);
+        addCard(resultContent, currentFilms[i][0], currentFilms[i][1], currentFilms[i][2], currentFilms[i][3]);
+
+        cardIndex++;
+    }
+
+    // Mettre à jour l'affichage de la pagination
+    updatePagination(page);
+}
+
+function clearContainers() {
+    for (let i = 1; i <= 4; i++) {
+        let container = document.getElementById("resultContentContainer" + i);
+        let resultContent = container.querySelector(".resultContent");
+        resultContent.innerHTML = "";
+    }
+}
+
+function updatePagination(page) {
+    // Mettre à jour le numéro de page affiché
+    let resultTitle = document.getElementById("pageNumbers");
+    resultTitle.innerText = "Page " + page;
+
+    // Afficher ou masquer les boutons de navigation en fonction de la page actuelle
+    let previousButton = document.getElementById("previousButton");
+    let nextButton = document.getElementById("nextButton");
+
+    if (page === 1) {
+        previousButton.style.display = "none";
+    } else {
+        previousButton.style.display = "block";
+    }
+
+    if (page === totalPages) {
+        nextButton.style.display = "none";
+    } else {
+        nextButton.style.display = "block";
+    }
+}
+
+function goToPreviousPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        displayPage(currentPage);
+    }
+}
+
+function goToNextPage() {
+    if (currentPage < totalPages) {
+        currentPage++;
+        displayPage(currentPage);
     }
 }
 
 function addCard(container, real, title, duree, categorie){
     let card = document.createElement("div");
     card.classList.add("card");
-    card.innerHTML = "Tire : " + title + "<br>Realisateur : " + real + "<br>Durée : " + duree + "<br>Categorie : " + categorie;
+    card.innerHTML = "Titre : " + title + "<br>Realisateur : " + real + "<br>Durée : " + duree + "<br>Categorie : " + categorie;
     container.appendChild(card);
 }
 
-readAndDisplay();
+// -------------------------
+//Appel des fonctions
+
+displayDirector();
+displayDuree();
+displayCategorie();
+displayFilm();
+displayAll();
+displayMostMovies();
+displayFallBack();

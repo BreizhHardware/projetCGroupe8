@@ -13,6 +13,7 @@
 </head>
 <body>
   <h1>Filmothèque <i class="fa-solid fa-film"></i></h1>
+  <h3 id="pageNumbers"></h3>
   <div id="result">
       <div id="resultTitleContainer">
           <h2 id="resultTitle"></h2>
@@ -33,6 +34,10 @@
           <div class="resultContent">
           </div>
       </div>
+  </div>
+  <div id="navButton">
+    <button class="pageButton" id="previousButton" onclick="goToPreviousPage()"><i class="fa-solid fa-arrow-left" style="color: #ffffff;"></i></button>
+    <button class="pageButton" id="nextButton" onclick="goToNextPage()"><i class="fa-solid fa-arrow-right" style="color: #ffffff;"></i></button><br>
   </div>
   <button class="searchButton" id="returnToHome" onclick="returnToHome()">Retourner à l'accueil</button><br>
   <button id="stop stopResult" onclick="stopServer()">Couper le serveur</button>

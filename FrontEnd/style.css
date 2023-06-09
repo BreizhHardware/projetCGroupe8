@@ -142,3 +142,29 @@ h1{
     border: none;
     cursor: not-allowed;
 }
+
+.pageButton{
+    width: 2em;
+    height: 2em;
+    background-color: #3B428A;
+    border: none;
+    align-self: center;
+    margin-bottom: 1em;
+    cursor: pointer;
+}
+
+#navButton{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+#navButton > button{
+    margin: 1em;
+}
+
+#pageNumbers{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
