@@ -48,5 +48,5 @@ function callWrite() {
     writeFile("form-findByDirector",  )
 }
 
-form_button = document.getElementById("go")
-form_button.onclick = callWrite
+
+const result =  readFileByName("../BackEnd/results.txt");

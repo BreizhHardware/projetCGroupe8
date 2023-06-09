@@ -90,3 +90,101 @@ displayCategorie();
 displayFilm();
 displayAll();
 displayMostMovies();
+
+function writeFile(id_form,func) {
+
+    let element = document.createElement('a');
+
+    let text1 = document.getElementById(id_form);
+    let count = text1.elements.length;
+    let textToSave = func;
+    for(let i = 0;i<count-1;i++){
+        textToSave += ";" + text1[i].value;
+    }
+
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textToSave));
+    element.setAttribute('download', 'request.txt');
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+
+    // text1.submit();
+}
+// -------------------------
+
+
+// ------- READ FILE -------
+function readFileByName(fileName){
+
+    let xhr = new XMLHttpRequest();
+    do {
+        xhr.open("GET", fileName, false);
+        xhr.send(null);
+
+    }while(xhr.status === 404);
+
+    // assumes status 200
+    return xhr.responseText;
+}
+
+function readFile(){
+    readFileByName("ready.txt");
+    return readFileByName("results.txt");
+}
+// -------------------------
+
+
+function callWrite() {
+    writeFile("form-findByDirector",  )
+}
+
+function readAndDisplay(){
+    const result =  readFileByName("../BackEnd/results.txt");
+
+    // Récupère le tableau de films
+    let films = result.split("\n");
+
+    // Supprime le dernier element du tableau (vide)
+    films.pop();
+
+    // Retire le \r de chaque element du tableau
+    for(let i = 0;i<films.length;i++){
+        films[i] = films[i].replace("\r","");
+    }
+
+    console.log(films);
+
+    // Split chaque element du tableau en un tableau de 4 elements
+    for(let i = 0;i<films.length;i++){
+        films[i] = films[i].split(";");
+    }
+
+    console.log(films);
+
+    // Creation de la carte pour chaque film
+    let containerIndex = 1;
+
+    for(let i = 0; i < films.length;i++){
+        let container = document.getElementById("resultContentContainer" + containerIndex);
+        let resultContent = container.querySelector(".resultContent");
+
+        if (resultContent.children.length >= 5){
+            containerIndex++;
+            container = document.getElementById("resultContentContainer" + containerIndex);
+            resultContent = container.querySelector(".resultContent");
+        }
+
+        addCard(resultContent, films[i][0], films[i][1], films[i][2], films[i][3]);
+    }
+}
+
+function addCard(container, real, title, duree, categorie){
+    let card = document.createElement("div");
+    card.classList.add("card");
+    card.innerHTML = "Tire : " + title + "<br>Realisateur : " + real + "<br>Durée : " + duree + "<br>Categorie : " + categorie;
+    container.appendChild(card);
+}
+
+readAndDisplay();

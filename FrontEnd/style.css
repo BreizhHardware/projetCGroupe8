@@ -16,7 +16,7 @@ body{
    padding-right: 0.5em;
 }
 
-a{
+#link{
    text-decoration: underline;
    color: white;
 }
