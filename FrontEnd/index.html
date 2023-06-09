@@ -4,37 +4,47 @@
    <meta charset="utf-8">
    <title> Groupe 8 Projet C </title>
    <link rel="stylesheet" href="style.css">
-   <script src="script.js" defer></script>
+   <script src="js/script.js" defer></script>
+   <script src="read_write.js" defer></script>
    <link rel="icon" href="V5.png" type="image/x-icon">
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+   <script src="https://kit.fontawesome.com/5b8b37978c.js" crossorigin="anonymous"></script>
  </head>
  <body>
-    <h1>Filmothèque</h1>
+    <h1>Filmothèque <i class="fa-solid fa-film"></i></h1>
     <div id="research">
-        <form action="result.html" id="researchForm">
-            <div class="formResearchAndCheck">
-                <input type="text" id="director" class="searchField" name="director" placeholder="Rechercher par le nom d'un réalisateur">
-                <input type="checkbox" id="directorCheck" name="directorCheck" checked>
-            </div>
-            <div class="formResearchAndCheck">
-                <input type="text" id="duree" class="searchField" name="duree" placeholder="Rechercher par la durée" disabled>
-                <input type="checkbox" id="dureeCheck" name="dureeCheck">
-            </div>
-            <div class="formResearchAndCheck">
-                <input type="text" id="categorie" class="searchField" name="categorie" placeholder="Rechercher par la catégorie" disabled>
-                <input type="checkbox" id="categorieCheck" name="categorieCheck">
-            </div>
-            <div class="formResearchAndCheck">
-                <input type="text" id="film" class="searchField" name="film" placeholder="Rechercher par le nom d'un film" disabled>
-                <input type="checkbox" id="filmCheck" name="filmCheck">
-            </div>
-            <button type="submit" id="researchButton" class="searchButton">Rechercher</button>
+        <form id="formDirector" action="result.html">
+            <p id="directorError" class="error"></p>
+            <input type="text" id="director" class="searchField" name="director" placeholder="Rechercher par le nom d'un réalisateur"><br>
+            <button type="submit" id="directorButton" class="searchButton" onclick="writeFile('formDirector', 'searchByDirector')" disabled>Rechercher par realisateur</button>
         </form>
-        <button id="realMostMovie" onclick="realMostMovie()" class="searchButton">Quel réal a fait le plus de film ?</button><br>
-        <button id="researchAll" onclick="researchAll()" class="searchButton">Tout rechercher</button><br>
-        <button id="stop" onclick="stopServer()">Couper le serveur</button>
+        <form id="formDuree" action="result.html">
+            <p id="dureeError" class="error"></p>
+            <input type="text" id="duree" class="searchField" name="duree" placeholder="Rechercher par la durée"><br>
+            <button type="submit" id="dureeButton" class="searchButton" onclick="writeFile('formDuree', 'searchByDuree')" disabled>Rechercher par durée</button>
+        </form>
+        <form id="formCategorie" action="result.html">
+            <p id="categorieError" class="error"></p>
+            <input type="text" id="categorie" class="searchField" name="categorie" placeholder="Rechercher par la catégorie"><br>
+            <button type="submit" id="categorieButton" class="searchButton" onclick="writeFile('formCategorie', 'searchByCategorie')" disabled>Rechercher par catégorie</button>
+        </form>
+        <form id="formFilm" action="result.html">
+            <p id="filmError" class="error"></p>
+            <input type="text" id="film" class="searchField" name="film" placeholder="Rechercher par le nom d'un film"><br>
+            <button type="submit" id="filmButton" class="searchButton" onclick="writeFile('formFilm', 'searchByFilm')" disabled>Rechercher par nom</button>
+        </form>
+        <form id="formMostMovie" action="result.html">
+            <input type="text" style="display: none" name="MostMovies">
+            <button type="submit" id="realMostMovie" onclick="writeFile('formMostMovie', 'searchRealMostMovie')" class="searchButton">Quel réal a fait le plus de film ?</button><br>
+        </form>
+        <form id="formAll" action="result.html">
+            <input type="text" style="display: none" name="All">
+            <button type="submit" id="researchAll" onclick="writeFile('formAll', 'searchAll')" class="searchButton">Tout rechercher</button><br>
+        </form>
+        <form id="formStop"></form>
+        <button id="stop" onclick="writeFile('formStop', 'stopServer')">Couper le serveur</button>
     </div>
     <div id="bottom">
         <p>Created by Louis MARVILLET, Herman MARZELIERE, Félix MARQUET<br>

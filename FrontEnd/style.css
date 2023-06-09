@@ -36,7 +36,7 @@ h1{
    background-color: #1E1F22;
    color: white;
    border: none;
-   margin-bottom: 5em;
+   margin-bottom: 2em;
    text-align: center;
 }
 
@@ -129,4 +129,15 @@ h1{
     color: white;
     border: none;
     cursor: pointer;
+}
+
+.error{
+    color: red;
+}
+
+.searchButton:disabled{
+    background-color: rgba(59, 66, 138, 0.5);
+    color: white;
+    border: none;
+    cursor: not-allowed;
 }

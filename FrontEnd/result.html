@@ -4,24 +4,26 @@
     <meta charset="UTF-8">
     <title>Résultat de la recherche</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <script src="js/result.js" defer></script>
     <link rel="icon" href="V5.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/5b8b37978c.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <h1>Filmothèque</h1>
+  <h1>Filmothèque <i class="fa-solid fa-film"></i></h1>
   <div id="result">
       <div id="resultTitleContainer">
-          <h2 id="resultTitle">Film par [Réalisateur] :<br> Temps de recherche : [temps]</h2>
+          <h2 id="resultTitle"></h2>
       </div>
       <div id="resultContentContainer1">
           <div class="resultContent">
             <div class="card">
                 Titre : [titre]<br>
                 Durée : [durée]<br>
-                Catégorie : [catégorie]
+                Catégorie : [catégorie]<br>
+                Réalisateur : [réalisateur]
             </div>
           </div>
       </div>
