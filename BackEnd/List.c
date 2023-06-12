@@ -5,12 +5,14 @@
 #include "list.h"
 
 struct Cell* createCell(char *director, char *name, char *time, char *category) {
+    printf("%s\n", name);
     struct Cell* cell = malloc(sizeof(struct Cell));
     cell->director = director;
     cell->name = name;
     cell->time = time;
     cell->category = category;
     cell->next = NULL;
+    printf("%s\n", cell->name);
     return cell;
 }
 
@@ -25,6 +27,7 @@ void addFirst(struct List* l, char* director, char* name, char* time, char* cate
     struct Cell* cell = createCell(director, name, time, category);
     cell->next = l->head;
     l->head = cell;
+    printf("%s\n", l->head->name);
     l->size++;
 }
 
@@ -58,10 +61,10 @@ void printList(struct List* l){
         printf("Liste vide\n");
         return;
     }
-    struct Cell* current = l->head;
-    while(current != NULL){
-        printf("%s, %s, %s, %s\n", current->director, current->name, current->time, current->category);
-        current = current->next;
+    while(l->head != NULL){
+        printf("%s\n", l->head->name);
+        printf("%s, %s, %s, %s\n", l->head->director, l->head->name, l->head->time, l->head->category);
+        l->head = l->head->next;
     }
     printf("\n");
 }

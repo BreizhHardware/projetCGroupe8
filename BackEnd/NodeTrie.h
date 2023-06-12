@@ -1,7 +1,7 @@
 #ifndef PROJETCGROUPE8_MAIN_NODETRIE_H
 #define PROJETCGROUPE8_MAIN_NODETRIE_H
 
-#define MAX_LETTERS 26
+#define MAX_LETTERS 28
 
 #include "List.h"
 #include <string.h>
@@ -16,12 +16,6 @@ struct NodeTrie{
 };
 
 struct NodeTrie* createEmptyNodeTrie();
-
-void insertWord(struct NodeTrie* trie, char* word);
-
-void deleteWord(struct NodeTrie* trie, char* word);
-
-bool findWord(struct NodeTrie* trie, char* word);
 
 void deleteNodeTrie(struct NodeTrie** trie);
 

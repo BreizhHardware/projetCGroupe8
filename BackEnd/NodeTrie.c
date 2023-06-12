@@ -1,4 +1,4 @@
-#define MAX_LETTERS 26
+#define MAX_LETTERS 28
 
 #include "NodeTrie.h"
 
@@ -18,37 +18,6 @@ struct NodeTrie* createEmptyNodeTrie(){
     }
     trie -> isName = false;
     return trie;
-}
-
-void insertWord(struct NodeTrie* trie, char* word){
-    int n = strlen(word);
-    for(int i = 0; i<n; i++){
-        if(trie -> children[word[i]-'a'] == NULL){
-            trie -> children[word[i]-'a'] = createEmptyNodeTrie();
-        }
-        trie = trie -> children[word[i]-'a'];
-    }
-    trie -> isName = true;
-}
-
-void deleteWord(struct NodeTrie* trie, char* word){
-    int n = strlen(word);
-    for(int i = 0; i<n; i++){
-        if(trie -> children[word[i]-'a']!=NULL){
-            trie = trie -> children[word[i]-'a'];
-        }
-    }
-    trie -> isName = false;
-}
-
-bool findWord(struct NodeTrie* trie, char* word){
-    int n = strlen(word);
-    for(int i = 0; i<n; i++){
-        if(trie -> children[word[i]-'a'] == NULL){
-            return false;
-        }
-    }
-    return true;
 }
 
 void deleteNodeTrie(struct NodeTrie** trie){
