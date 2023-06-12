@@ -29,4 +29,5 @@ void deleteFirst(struct List* l);
 unsigned int listSize(struct List* l);
 void deleteList(struct List** l);
 void printList(struct List* l);
+struct List* copyList(struct List* l);
 #endif //_LIST_H

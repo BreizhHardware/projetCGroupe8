@@ -36,10 +36,8 @@ struct List* searchByDirector(struct Filmotheque* filmotheque, char* director){
         node = node->children[director[i] - 'a'];
     }
     if(node->isName){
-        for(int i = 0; i < listSize(node->movie); i++){
-            addFirst(list, node->movie->head->director, node->movie->head->name, node->movie->head->time, node->movie->head->category);
-            deleteFirst(node->movie);
-        }
+        struct List* copy = copyList(node->movie);
+        return copy;
     }
     return list;
 }

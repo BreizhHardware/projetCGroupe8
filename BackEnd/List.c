@@ -65,3 +65,13 @@ void printList(struct List* l){
     }
     printf("\n");
 }
+
+struct List* copyList(struct List* l){
+    struct List* copy = createEmptyList();
+    struct Cell* current = l->head;
+    while(current != NULL){
+        addFirst(copy, current->director, current->name, current->time, current->category);
+        current = current->next;
+    }
+    return copy;
+}
