@@ -2,50 +2,60 @@
 // Created by felix on 27/01/23.
 //
 
-#include "list.h"
+#include "List.h"
 
-struct Cell* createCell(char *director, char *name, char *time, char *category) {
-    printf("%s\n", name);
+struct Cell* createCell(char* director, char* name, char* time, char* category){
     struct Cell* cell = malloc(sizeof(struct Cell));
-    cell->director = director;
-    cell->name = name;
-    cell->time = time;
-    cell->category = category;
+    if(cell == NULL){
+        printf("error malloc");
+        return NULL;
+    }
+    cell->director = malloc(sizeof(char) * (strlen(director) + 1));
+    cell->name = malloc(sizeof(char) * (strlen(name) + 1));
+    cell->time = malloc(sizeof(char) * (strlen(time) + 1));
+    cell->category = malloc(sizeof(char) * (strlen(category) + 1));
+    strcpy(cell->director, director);
+    strcpy(cell->name, name);
+    strcpy(cell->time, time);
+    strcpy(cell->category, category);
     cell->next = NULL;
-    printf("%s\n", cell->name);
     return cell;
 }
 
 struct List* createEmptyList(){
-    struct List* l = malloc(sizeof(struct List));
-    l->size = 0;
-    l->head = NULL;
-    return l;
+    struct List* list = malloc(sizeof(struct List));
+    if(list == NULL){
+        printf("error malloc");
+        return NULL;
+    }
+    list->size = 0;
+    list->head = NULL;
+    return list;
 }
 
 void addFirst(struct List* l, char* director, char* name, char* time, char* category){
     struct Cell* cell = createCell(director, name, time, category);
-    cell->next = l->head;
-    l->head = cell;
-    printf("%s\n", l->head->name);
+    if(l->head == NULL){
+        l->head = cell;
+    }
+    else{
+        cell->next = l->head;
+        l->head = cell;
+    }
     l->size++;
 }
 
 bool isListEmpty(struct List* l){
-    return l->head == NULL;
-}
-void deleteFirst(struct List* l) {
-    if (isListEmpty(l)) {
-        return;
-    }
-    struct Cell *next = l->head->next;
-    free(l->head);
-    l->head = next;
-    l->size--;
+    return l->size == 0;
 }
 
-unsigned int listSize(struct List* l){
-    return l->size;
+void deleteFirst(struct List* l){
+    if(l->head != NULL){
+        struct Cell* tmp = l->head;
+        l->head = l->head->next;
+        free(tmp);
+        l->size--;
+    }
 }
 
 void deleteList(struct List** l){
@@ -57,24 +67,9 @@ void deleteList(struct List** l){
 }
 
 void printList(struct List* l){
-    if(isListEmpty(l)){
-        printf("Liste vide\n");
-        return;
+    struct Cell* tmp = l->head;
+    while(tmp != NULL){
+        printf("%s, %s, %s, %s\n", tmp->director, tmp->name, tmp->time, tmp->category);
+        tmp = tmp->next;
     }
-    while(l->head != NULL){
-        printf("%s\n", l->head->name);
-        printf("%s, %s, %s, %s\n", l->head->director, l->head->name, l->head->time, l->head->category);
-        l->head = l->head->next;
-    }
-    printf("\n");
-}
-
-struct List* copyList(struct List* l){
-    struct List* copy = createEmptyList();
-    struct Cell* current = l->head;
-    while(current != NULL){
-        addFirst(copy, current->director, current->name, current->time, current->category);
-        current = current->next;
-    }
-    return copy;
 }

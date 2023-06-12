@@ -22,8 +22,8 @@ Coppola;Apocalypse Now;153;War
 Coppola;The Godfather;175;Crime
 Cuaron;Harry Potter and the Prisoner of Azkaban;142;Fantasy
 Cuaron;Children of Men;109;Science Fiction
-Deltoro;Pan's Labyrinth;118;Fantasy
-Deltoro;The Shape of Water;123;Fantasy
+Del Toro;Pan's Labyrinth;118;Fantasy
+Del Toro;The Shape of Water;123;Fantasy
 Demme;The Silence of the Lambs;118;Thriller
 DuVernay;Selma;128;Biography
 Eastwood;Unforgiven;131;Western

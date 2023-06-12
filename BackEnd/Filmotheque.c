@@ -37,30 +37,46 @@ void addMovie(struct Filmotheque* filmotheque, char* real, char* movie, char* ti
             node = node->children[real[i] - 'a'];
         }
     }
-
-    if (node->isName) {
-        addFirst(node->movie, real, movie, time, category);
-    }
-    else {
-        node->isName = true;
+    node->isName = true;
+    if (node->movie == NULL) {
         node->movie = createEmptyList();
-        addFirst(node->movie, real, movie, time, category);
+    }
+    addFirst(node->movie, real, movie, time, category);
+    //If the director has more movie than the max, we change the RealMax to the director and we change the maxMovies
+    if (node->movie->size > filmotheque->maxMovies) {
+        filmotheque->realMax = node->movie;
+        filmotheque->maxMovies = node->movie->size;
     }
 }
 
 struct List* searchByDirector(struct Filmotheque* filmotheque, char* director){
-    struct List* copy = createEmptyList();
     struct NodeTrie* node = filmotheque->director;
-    for(int i = 0; i < strlen(director); i++){
-        if(node->children[director[i] - 'a'] == NULL){
-            return copy;
+    for (int i = 0; i < strlen(director); i++) {
+        if (director[i] == '-') {
+            if (node->children[26] == NULL) {
+                return NULL;
+            }
+            node = node->children[26];
         }
-        node = node->children[director[i] - 'a'];
+        else if (director[i] == '\'') {
+            if (node->children[27] == NULL) {
+                return NULL;
+            }
+            node = node->children[27];
+        }
+        else if (node->children[director[i] - 'a'] == NULL) {
+            return NULL;
+        }
+        else {
+            node = node->children[director[i] - 'a'];
+        }
     }
-    if(node->isName){
-        copy = copyList(node->movie);
+    if (node->isName) {
+        return node->movie;
     }
-    return copy;
+    else {
+        return NULL;
+    }
 }
 
 void deleteFilmotheque(struct Filmotheque** filmotheque){
@@ -84,19 +100,20 @@ struct Filmotheque* recupInfo(char* nameFile){
     char* category = malloc(sizeof(char));
     char line[NUMBER_OF_CHAR];
 
-    struct Filmotheque* filmo = createEmptyFilmotheque();
+    struct Filmotheque* filmotheque = createEmptyFilmotheque();
 
     while(fgets(line,sizeof(line),fichier) != NULL){
+        line[strcspn(line, "\r\n")] = '\0';
         real = toLower((strtok(line, ";")));
         movie = strtok(NULL, ";");
         time = strtok(NULL, ";");
         category = strtok(NULL, ";");
-        addMovie(filmo,real,movie,time,category);
+        addMovie(filmotheque,real,movie,time,category);
     }
 
     fclose(fichier);
 
-    return filmo;
+    return filmotheque;
 }
 
 char* toLower(char* name) {

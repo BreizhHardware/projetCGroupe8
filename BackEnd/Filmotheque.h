@@ -10,7 +10,7 @@
 
 
 struct Filmotheque{
-    char* realMax;
+    struct List* realMax;
     int maxMovies;
     struct NodeTrie* director;
 };

@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "list.h"
+#include "List.h"
 #include "Filmotheque.h"
 
 int main() {
@@ -37,16 +37,18 @@ int main() {
     addMovie(filmotheque, "real", "Fight Club", "time", "category");
     addMovie(filmotheque, "real", "Mank", "69", "category");
     addMovie(filmotheque, "real", "movie3", "420", "category");
-    addMovie(filmotheque, "real2", "movie4", "549", "category");
+    addMovie(filmotheque, "pouet", "movie4", "549", "category");
     struct List* test = searchByDirector(filmotheque, "real");
     printList(test);
     deleteList(&test);
     deleteFilmotheque(&filmotheque);
     struct Filmotheque* filmotheque2 = recupInfo("../BD_small.txt");
     struct List* test3 = searchByDirector(filmotheque2, "fincher");
-    char* testChar = printList(test3);
-    printf("aaaaaaaaaaaaa");
-    printf("%s", testChar);
+    printList(test3);
+    if(test3->head == NULL){
+        printf("NULL");
+    }
+    int a = 1;
     deleteList(&test3);
     deleteFilmotheque(&filmotheque2);
     return 0;
