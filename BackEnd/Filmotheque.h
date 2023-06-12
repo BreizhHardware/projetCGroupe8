@@ -12,4 +12,8 @@ struct Filmotheque{
     struct NodeTrie* Real;
 };
 
+struct Filmotheque* createEmptyFilmotheque();
+void addMovie(struct Filmotheque* filmotheque, char* real, char* movie, char* time, char* category);
+struct List* searchByDirector(struct Filmotheque* filmotheque, char* director);
+
 #endif //PROJETCGROUPE8_MAIN_FILMOTHEQUE_H
