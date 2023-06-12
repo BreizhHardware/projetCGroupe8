@@ -46,6 +46,9 @@ void addFirst(struct List* l, char* director, char* name, char* time, char* cate
 }
 
 bool isListEmpty(struct List* l){
+    if(l == NULL){
+        return true;
+    }
     return l->size == 0;
 }
 
@@ -67,6 +70,10 @@ void deleteList(struct List** l){
 }
 
 void printList(struct List* l){
+    if(isListEmpty(l)){
+        printf("List is empty\n");
+        return;
+    }
     struct Cell* tmp = l->head;
     while(tmp != NULL){
         printf("%s %s %s %s\n", tmp->director, tmp->name, tmp->time, tmp->category);

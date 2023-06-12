@@ -1,4 +1,5 @@
 #define NUMBER_OF_CHAR 100
+#define LENGTH 12600
 
 #include "Filmotheque.h"
 
@@ -29,7 +30,6 @@ void addMovie(struct Filmotheque* filmotheque, char* real, char* movie, char* ti
             }
             node = node->children[27];
         }
-        //If the character is a space, we put the node in the 28th case of the array
         else if (real[i] == ' ') {
             if (node->children[28] == NULL) {
                 node->children[28] = createEmptyNodeTrie();
@@ -139,4 +139,67 @@ char* toLower(char* name) {
     }
     lower[length] = '\0';
     return lower;
+}
+
+int stopServer(){
+    return 8;
+}
+
+struct List* createTable(char* nameFile){
+    FILE* fichier;
+    fichier = fopen(nameFile, "r");
+
+    if (fichier == NULL) {
+        printf("Erreur lors de l'ouverture du fichier");
+        exit(1);
+    }
+
+    char* real = malloc(sizeof(char));
+    if (real == NULL) {
+        printf("error malloc");
+        return NULL;
+    }
+    char* movie = malloc(sizeof(char));
+    if (movie == NULL) {
+        printf("error malloc");
+        return NULL;
+    }
+    char* time = malloc(sizeof(char));
+    if (time == NULL) {
+        printf("error malloc");
+        return NULL;
+    }
+    char* category = malloc(sizeof(char));
+    if (category == NULL) {
+        printf("error malloc");
+        return NULL;
+    }
+    char line[NUMBER_OF_CHAR];
+
+    struct List* tableau[LENGTH];
+    for(int i = 0; i < LENGTH; i++){
+        tableau[i] = NULL;
+    }
+
+    while(fgets(line,sizeof(line),fichier) != NULL){
+        line[strcspn(line, "\r\n")] = '\0';
+        real = toLower((strtok(line, ";")));
+        movie = strtok(NULL, ";");
+        time = strtok(NULL, ";");
+        category = strtok(NULL, ";");
+        addMovieInTable(tableau,real,movie,time,category);
+    }
+
+    fclose(fichier);
+
+    return tableau;
+}
+
+
+void addMovieInTable(struct List** tableau, char* real, char* movie, char* time, char* category){
+    int index = atoi(time);
+    if(tableau[index] == NULL){
+        tableau[index] = createEmptyList();
+    }
+    addFirst(tableau[index],real,movie,time,category);
 }
