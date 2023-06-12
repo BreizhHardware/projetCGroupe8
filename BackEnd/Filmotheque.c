@@ -2,14 +2,14 @@
 
 struct Filmotheque* createEmptyFilmotheque(){
     struct Filmotheque* filmotheque = malloc(sizeof(struct Filmotheque));
-    filmotheque->Real = createEmptyNodeTrie();
+    filmotheque->director = createEmptyNodeTrie();
     filmotheque->realMax = NULL;
     filmotheque->maxMovies = 0;
     return filmotheque;
 }
 
 void addMovie(struct Filmotheque* filmotheque, char* real, char* movie, char* time, char* category){
-    struct NodeTrie* node = filmotheque->Real;
+    struct NodeTrie* node = filmotheque->director;
     for(int i = 0; i < strlen(real); i++){
         if(node->children[real[i] - 'a'] == NULL){
             node->children[real[i] - 'a'] = createEmptyNodeTrie();
@@ -28,7 +28,7 @@ void addMovie(struct Filmotheque* filmotheque, char* real, char* movie, char* ti
 
 struct List* searchByDirector(struct Filmotheque* filmotheque, char* director){
     struct List* list = createEmptyList();
-    struct NodeTrie* node = filmotheque->Real;
+    struct NodeTrie* node = filmotheque->director;
     for(int i = 0; i < strlen(director); i++){
         if(node->children[director[i] - 'a'] == NULL){
             return list;

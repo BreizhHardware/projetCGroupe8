@@ -9,7 +9,7 @@
 struct Filmotheque{
     char* realMax;
     int maxMovies;
-    struct NodeTrie* Real;
+    struct NodeTrie* director;
 };
 
 struct Filmotheque* createEmptyFilmotheque();
