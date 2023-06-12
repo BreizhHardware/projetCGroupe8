@@ -1,4 +1,4 @@
-#define MAX_LETTERS 28
+#define MAX_LETTERS 29
 
 #include "NodeTrie.h"
 

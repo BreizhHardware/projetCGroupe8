@@ -1,7 +1,7 @@
 #ifndef PROJETCGROUPE8_MAIN_NODETRIE_H
 #define PROJETCGROUPE8_MAIN_NODETRIE_H
 
-#define MAX_LETTERS 28
+#define MAX_LETTERS 29
 
 #include "List.h"
 #include <string.h>

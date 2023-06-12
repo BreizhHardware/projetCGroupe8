@@ -29,6 +29,13 @@ void addMovie(struct Filmotheque* filmotheque, char* real, char* movie, char* ti
             }
             node = node->children[27];
         }
+        //If the character is a space, we put the node in the 28th case of the array
+        else if (real[i] == ' ') {
+            if (node->children[28] == NULL) {
+                node->children[28] = createEmptyNodeTrie();
+            }
+            node = node->children[28];
+        }
         else if (node->children[real[i] - 'a'] == NULL) {
             node->children[real[i] - 'a'] = createEmptyNodeTrie();
             node = node->children[real[i] - 'a'];

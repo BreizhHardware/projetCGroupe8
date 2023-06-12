@@ -69,7 +69,7 @@ void deleteList(struct List** l){
 void printList(struct List* l){
     struct Cell* tmp = l->head;
     while(tmp != NULL){
-        printf("%s, %s, %s, %s\n", tmp->director, tmp->name, tmp->time, tmp->category);
+        printf("%s %s %s %s\n", tmp->director, tmp->name, tmp->time, tmp->category);
         tmp = tmp->next;
     }
 }
