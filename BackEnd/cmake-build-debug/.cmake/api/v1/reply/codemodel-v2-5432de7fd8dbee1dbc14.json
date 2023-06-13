@@ -8,7 +8,7 @@
 					"build" : ".",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.18"
+						"string" : "3.7"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
@@ -48,8 +48,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/mnt/c/Users/BreizhHardware/Nextcloud/Programation/C/Isen/ProjetFin/BackEnd/cmake-build-debug",
-		"source" : "/mnt/c/Users/BreizhHardware/Nextcloud/Programation/C/Isen/ProjetFin/BackEnd"
+		"build" : "/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/cmake-build-debug",
+		"source" : "/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd"
 	},
 	"version" : 
 	{

@@ -12,26 +12,33 @@ struct Filmotheque{
     struct NodeTrie* director;
 };
 
+char* toLower(char* name);
+
 struct Filmotheque* createEmptyFilmo();
 
-void createTable(char* nameFile,struct List* table,struct Filmotheque* filmo);
+void initFilmo(char* nameFile,struct List* table,struct Filmotheque* filmo);
+
+struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie);
 
 void addMovie(struct Filmotheque* filmotheque, struct Movie* movie);
-
-char* toLower(char* name);
 
 struct List* searchByDirector(struct Filmotheque* filmotheque, char* director);
 
 struct List* searchByTime(struct List* tableau[LENGTH], char* time);
 
-struct List* searchByCategory(struct List* table[], char* category);
+struct List* searchByCategory(struct List* table[LENGTH], char* category);
 
 struct List* searchByFilm(struct List* table[LENGTH], char* name);
 
-struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie);
-
 void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGTH]);
 
+int readRequest(char* request, struct List* tableau[LENGTH],struct Filmotheque* filmo);
+
 void printResultInFile(struct List* result, double time);
+
+
+void deleteRequest();
+
+void deleteResult();
 
 #endif //PROJETCGROUPE8_MAIN_FILMOTHEQUE_H

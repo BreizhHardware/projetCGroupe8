@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "Movie.h"
 #include "Filmotheque.h"
@@ -73,7 +74,6 @@ void addMovie(struct Filmotheque* filmotheque, struct Movie* movie) {
         filmotheque->directorMax = node->movie->head->movie->director;
     }
 }
-
 struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie){
     int realTime = atoi(movie->time);
     if(table[realTime] == NULL){
@@ -87,7 +87,7 @@ struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie){
     return table[realTime];
 }
 
-void createTable(char* nameFile,struct List* table,struct Filmotheque* filmo){
+void initFilmo(char* nameFile,struct List* table,struct Filmotheque* filmo){
     FILE *fichier;
     fichier = fopen(nameFile, "r");
 
@@ -134,14 +134,17 @@ struct List* searchByTime(struct List* table[LENGTH], char* time){
     return table[realTime];
 }
 
-struct List* searchByCategory(struct List* table[], char* category){
+struct List* searchByCategory(struct List* table[LENGTH], char* category){
     struct List* result = createEmptyList();
     for(int i = 0;i<LENGTH;i++){
-        if(table[i] != NULL){
+        if(table[i]==NULL){
+            return NULL;
+        }
+        else{
             struct Cell* inter = table[i]->head;
             int length = table[i]->size;
-            for(int j=0;j<length;j++){
-                if(strcmp(inter->movie->category,category) == 0){
+            for(int j = 0;j<length;j++){
+                if(inter->movie->category == category){
                     addFirst(result,inter->movie);
                 }
             }
@@ -152,16 +155,15 @@ struct List* searchByCategory(struct List* table[], char* category){
 
 struct List* searchByFilm(struct List* table[LENGTH], char* name){
     struct List* result = createEmptyList();
-    for(int i=0; i<LENGTH; i++){
-        if(table[i] == NULL){
-            break;
+    for(int i = 0;i<LENGTH;i++){
+        if(table[i]==NULL){
+            return NULL;
         }
         else{
             struct Cell* inter = table[i]->head;
             int length = table[i]->size;
-            for(int j=0; j<length; j++){
-                //Si le nom du film contient le nom recherché
-                if(strstr(inter->movie->name,name) != NULL){
+            for(int j = 0;j<length;j++){
+                if(inter->movie->name == name){
                     addFirst(result,inter->movie);
                 }
             }
@@ -189,44 +191,84 @@ char* toLower(char* name){
     return lower;
 }
 
+struct List* searchRealMostMovie(struct Filmotheque* filmo){
+    char* directorMax = filmo->directorMax;
+    struct List* result = searchByDirector(filmo,directorMax);
+    return result;
+}
 
-/*void readRequest(char* request){
+
+int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque* filmo) {
+    deleteResult();
     FILE *fichier;
     fichier = fopen(request, "r");
 
     if (fichier == NULL) {
-        printf("Erreur lors de l'ouverture du fichier");
+        printf("Erreur lors de l'ouverture du fichier2");
         exit(1);
     }
 
-    char* fonction = malloc(sizeof(char) * 50);
-    char* var = malloc(sizeof(char) * 50);
+    char line[NUMBER_OF_CHAR];
 
-    while(fgets(line,sizeof(line),fichier) != NULL){
-        fonction =  strtok(line, ";");
-        var = strtok(NULL, ";");
+    char *fonction;
+    char *argument;
+
+    while (fgets(line, sizeof(line), fichier) != NULL) {
+        fonction = strtok(line, ";");
+        argument = strtok(NULL, ";");
     }
 
-    if(fonction == 'searchByDirector'){
-        return searchByDirector(var);
+    if (strcmp(fonction, "searchByDirector") == 0) {
+        clock_t start;
+        start = clock();
+        struct List* result = searchByDirector(filmo, argument);
+        start = clock() - start;
+        double time_taken = ((double) start) / CLOCKS_PER_SEC;
+        printResultInFile(result, time_taken);
+        deleteRequest();
+        return 0;
     }
-    if(fonction == 'searchByDuree'){
-        return searchByDuree(var);
+    else if (strcmp(fonction, "searchByTime") == 0) {
+        clock_t start;
+        start = clock();
+        struct List* result = searchByTime(tableau, argument);
+        start = clock() - start;
+        double time_taken = ((double) start) / CLOCKS_PER_SEC;
+        printResultInFile(result, time_taken);
+        deleteRequest();
+        return 0;
     }
+    else if (strcmp(fonction, "searchByCategory") == 0){
+        clock_t start;
+        start = clock();
+        struct List* result = searchByCategory(tableau, argument);
+        start = clock() - start;
+        double time_taken = ((double) start) / CLOCKS_PER_SEC;
+        printResultInFile(result, time_taken);
+        deleteRequest();
+        return 0;
+    }
+    else if (strcmp(fonction,"searchRealMostMovie") == 0) {
+        clock_t start;
+        start = clock();
+        struct List *result = searchRealMostMovie(filmo);
+        start = clock() - start;
+        double time_taken = ((double) start) / CLOCKS_PER_SEC;
+        printResultInFile(result, time_taken);
+        deleteRequest();
+        return 0;
+    }
+    else if (strcmp(fonction,"stopServer") == 0) {
+        deleteRequest();
+        return 8;
+    }
+}
+    /*
     if(fonction == 'searchByCategorie'){
         return searchByCategorie(var);
     }
     if(fonction == 'searchByFilm'){
         return searchByFilm(var);
-    }
-    if(fonction == 'searchRealMostMovie'){
-        return searchRealMostMovie(var);
-    }
-    if(fonction == 'searchAll'){
-        return searchAll(var);
-    }
-    if(fonction == 'stopServer'){
-        return stopServer(var);
     }
 }
 */
@@ -247,7 +289,7 @@ void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGT
 
 void printResultInFile(struct List* result, double time){
     FILE *fichier;
-    fichier = fopen("result.txt", "w");
+    fichier = fopen("results.txt", "w");
 
     if (fichier == NULL) {
         printf("Erreur lors de l'ouverture du fichier");
@@ -267,6 +309,19 @@ void printResultInFile(struct List* result, double time){
     //ecrit ready.txt pour dire que le fichier est pret a etre lu
     FILE *fichier2;
     fichier2 = fopen("ready.txt", "w");
-    fprintf(fichier2,"ready");
     fclose(fichier2);
+}
+
+void deleteRequest(){
+    char* ready_request = "ready_requests.txt";
+    char* request = "requests.txt";
+    remove(ready_request);
+    remove(request);
+}
+
+void deleteResult(){
+    char* ready_results = "ready.txt";
+    char* results = "results.txt";
+    remove(ready_results);
+    remove(results);
 }
