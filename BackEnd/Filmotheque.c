@@ -133,14 +133,11 @@ struct List* searchByTime(struct List* table[LENGTH], char* time){
 struct List* searchByCategory(struct List* table[LENGTH], char* category){
     struct List* result = createEmptyList();
     for(int i = 0;i<LENGTH;i++){
-        if(table[i]==NULL){
-            return NULL;
-        }
-        else{
+        if(table[i] != NULL){
             struct Cell* inter = table[i]->head;
             int length = table[i]->size;
-            for(int j = 0;j<length;j++){
-                if(inter->movie->category == category){
+            for(int j=0;j<length;j++){
+                if(!strcmp(inter->movie->category,category)) {
                     addFirst(result,inter->movie);
                 }
             }
@@ -208,6 +205,8 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         fonction = strtok(line, ";");
         argument = strtok(NULL, ";");
     }
+
+
     if (strcmp(fonction, "searchByDirector") == 0) {
         clock_t start;
         toLowercase(argument);
@@ -235,6 +234,17 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         clock_t start;
         start = clock();
         struct List* result = searchByCategory(tableau, argument);
+        start = clock() - start;
+        double time_taken = ((double) start) / CLOCKS_PER_SEC;
+        printResultInFile(result, time_taken);
+        delay(2);
+        deleteFile();
+        return 0;
+    }
+    else if (strcmp(fonction, "searchByFilm") == 0){
+        clock_t start;
+        start = clock();
+        struct List* result = searchByFilm(tableau, argument);
         start = clock() - start;
         double time_taken = ((double) start) / CLOCKS_PER_SEC;
         printResultInFile(result, time_taken);

@@ -40,8 +40,10 @@ function readFileByName(fileName){
 
     let xhr = new XMLHttpRequest();
     do {
-        xhr.open("GET", fileName, false);
-        xhr.send(null);
+        setTimeout(() => {
+            xhr.open("GET", fileName, false);
+            xhr.send(null);
+        });
 
     }while(xhr.status === 404);
 
@@ -56,7 +58,9 @@ function checkFile(resolve) {
     if (readFileByName("../BackEnd/ready.txt") !== "") {
         resolve();
     } else {
-        setTimeout(() => checkFile(resolve), 1000);
+        setTimeout(() => {
+            checkFile(resolve);
+        }, 5000);
     }
 }
 

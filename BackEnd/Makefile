@@ -1,6 +1,5 @@
-CC=gcc -fsanitize=address
-CPPFLAGS= -MMD -D_XOPEN_SOURCE=500
-CFLAGS= -Wall -std=c11 -O2
+CC=gcc
+CFLAGS= -Wall
 DEBUG=-fsanitize=address -g
 
 SRC = Filmotheque.c main.c Movie.c NodeTrie.c List.c
@@ -11,9 +10,11 @@ DEP = ${SRC:.c=.d}
 
 all: ${OBJ}
 	${CC} ${CFLAGS} ${OBJ} -o Filmotheque
+	rm -f requests* results* ready*
 
 debug: ${SRC}
 	${CC} ${CFLAGS} ${DEBUG} ${SRC} -o Filmotheque
+	rm -f requests* results* ready*
 
 main: ${OBJ}
 

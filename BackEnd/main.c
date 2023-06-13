@@ -7,7 +7,7 @@
 int main() {
     int stop = 0;
 
-    char *fichier = "BD_small.txt";
+    char *fichier = "BD_big.txt";
 
     //Create a table of list named tableau
     struct List *tableau[LENGTH];
@@ -16,15 +16,8 @@ int main() {
     }
     struct Filmotheque *filmo = createEmptyFilmo();
     initFilmo(fichier, tableau, filmo);
-    
-    struct List* test = searchByFilm(tableau, "The");
-
-    printList(test);
-
-    free(test);
-
+    printf("Filmotheque initialized\n");
     while (stop != 8) {
-        //check if requests.txt exist but don't create it if it doesn't exist
         FILE *verif = fopen("requests.txt", "r");
         if (verif != NULL) {
             char *request = "requests.txt";
