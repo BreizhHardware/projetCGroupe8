@@ -37,16 +37,7 @@ function readFileByName(fileName){
     return xhr.responseText;
 }
 
-function readFile(){
-    readFileByName("ready.txt");
-    return readFileByName("results.txt");
-}
-// -------------------------
 
-
-function callWrite() {
-    writeFile("form-findByDirector",  )
-}
 // -------- CHECK FILE --------
 
 function checkFile(resolve) {
@@ -57,7 +48,6 @@ function checkFile(resolve) {
     }
 }
 
-const result =  readFileByName("../BackEnd/results.txt");
 
 // ----------ON CLICK----------
 

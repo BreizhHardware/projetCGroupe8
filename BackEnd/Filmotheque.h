@@ -36,9 +36,8 @@ int readRequest(char* request, struct List* tableau[LENGTH],struct Filmotheque* 
 
 void printResultInFile(struct List* result, double time);
 
+void delay(int i);
 
-void deleteRequest();
-
-void deleteResult();
+void deleteFile();
 
 #endif //PROJETCGROUPE8_MAIN_FILMOTHEQUE_H

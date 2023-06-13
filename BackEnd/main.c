@@ -15,12 +15,11 @@ int main() {
         tableau[i] = NULL;
     }
     struct Filmotheque *filmo = createEmptyFilmo();
-    //Create the filmotheque with the file BD_small.txt
     initFilmo(fichier, tableau, filmo);
 
     while (stop != 8) {
-        FILE *verif;
-        verif = fopen("requests.txt", "r");
+        //check if requests.txt exist but don't create it if it doesn't exist
+        FILE *verif = fopen("requests.txt", "r");
         if (verif != NULL) {
             printf("Verif passed");
             char *request = "requests.txt";
@@ -29,20 +28,4 @@ int main() {
     }
     return 0;
 }
-
-    /*
-    struct List* result = searchByDirector(filmo,"allen");
-    printList(result);
-    printf("\n-------------------------------------------------------\n");
-    struct List* result2 = searchByTime(tableau,"94");
-    printList(result2);
-
-    /*
-    printf("\n-------------------------------------------------------\n");
-    struct List* result3 = searchByCategory(tableau,"Action");
-    printList(result3);
-    printf("\n-------------------------------------------------------\n");
-    struct List* result4 = searchByFilm(tableau,"the");
-    printList(result4);
-     */
 

@@ -114,6 +114,8 @@ void initFilmo(char* nameFile,struct List* table,struct Filmotheque* filmo){
 }
 
 struct List* searchByDirector(struct Filmotheque* filmotheque, char* director){
+    printf("\nsearchByDirector\n");
+    printf("director : %s\n",director);
     struct List* copy = createEmptyList();
     struct NodeTrie* node = filmotheque->director;
     for(int i = 0; i < strlen(director); i++){
@@ -199,7 +201,7 @@ struct List* searchRealMostMovie(struct Filmotheque* filmo){
 
 
 int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque* filmo) {
-    deleteResult();
+    printf("\nreadRequest\n");
     FILE *fichier;
     fichier = fopen(request, "r");
 
@@ -217,15 +219,19 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         fonction = strtok(line, ";");
         argument = strtok(NULL, ";");
     }
-
     if (strcmp(fonction, "searchByDirector") == 0) {
         clock_t start;
+        argument = toLower(argument);
         start = clock();
         struct List* result = searchByDirector(filmo, argument);
         start = clock() - start;
         double time_taken = ((double) start) / CLOCKS_PER_SEC;
+        printList(result);
         printResultInFile(result, time_taken);
-        deleteRequest();
+        printf("\nstart of the delay\n");
+        delay(2);
+        printf("\nend of the delay\n");
+        deleteFile();
         return 0;
     }
     else if (strcmp(fonction, "searchByTime") == 0) {
@@ -235,7 +241,9 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         start = clock() - start;
         double time_taken = ((double) start) / CLOCKS_PER_SEC;
         printResultInFile(result, time_taken);
-        deleteRequest();
+        delay(2);
+        printf("\nend of the delay\n");
+        deleteFile();
         return 0;
     }
     else if (strcmp(fonction, "searchByCategory") == 0){
@@ -245,7 +253,9 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         start = clock() - start;
         double time_taken = ((double) start) / CLOCKS_PER_SEC;
         printResultInFile(result, time_taken);
-        deleteRequest();
+        delay(2);
+        printf("\nend of the delay\n");
+        deleteFile();
         return 0;
     }
     else if (strcmp(fonction,"searchRealMostMovie") == 0) {
@@ -255,11 +265,15 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         start = clock() - start;
         double time_taken = ((double) start) / CLOCKS_PER_SEC;
         printResultInFile(result, time_taken);
-        deleteRequest();
+        delay(2);
+        printf("\nend of the delay\n");
+        deleteFile();
         return 0;
     }
     else if (strcmp(fonction,"stopServer") == 0) {
-        deleteRequest();
+        delay(2);
+        printf("\nend of the delay\n");
+        deleteFile();
         return 8;
     }
 }
@@ -288,6 +302,7 @@ void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGT
 }
 
 void printResultInFile(struct List* result, double time){
+    printf("\nprintResultInFile\n");
     FILE *fichier;
     fichier = fopen("results.txt", "w");
 
@@ -312,16 +327,19 @@ void printResultInFile(struct List* result, double time){
     fclose(fichier2);
 }
 
-void deleteRequest(){
-    char* ready_request = "ready_requests.txt";
-    char* request = "requests.txt";
-    remove(ready_request);
-    remove(request);
-}
-
-void deleteResult(){
+void deleteFile(){
+    printf("\ndeleteFile\n");
     char* ready_results = "ready.txt";
     char* results = "results.txt";
     remove(ready_results);
     remove(results);
+    char* request = "requests.txt";
+    remove(request);
+    return;
+}
+
+void delay(int i){
+    clock_t start,end;
+    start = clock();
+    while(((end=clock())-start)<=i*CLOCKS_PER_SEC);
 }

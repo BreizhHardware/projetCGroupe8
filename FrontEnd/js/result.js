@@ -165,7 +165,7 @@ let currentPage = 1;
 const filmsPerPage = 20;
 
 function readAndDisplay() {
-    const result = readFileByName("../BackEnd/result.txt");
+    const result = readFileByName("../BackEnd/results.txt");
     // Récupère le tableau de films a partir de la 2eme ligne
     films = result.split("\n");
     films.shift();
@@ -189,7 +189,9 @@ function readAndDisplay() {
     // Split chaque élément du tableau en un tableau de 4 éléments
     films = films.map(film => film.split(";"));
 
+    //sort in alphabetical order by title without the .localeCompare
     films.sort((a, b) => a[1].localeCompare(b[1]));
+
 
     // Calculer le nombre total de pages
     totalPages = Math.ceil(films.length-1 / filmsPerPage);
@@ -298,7 +300,7 @@ function addCard(container, real, title, duree, categorie){
 // -------------------------
 //Appel des fonctions
 
-const result = readFileByName("../BackEnd/result.txt");
+const result = readFileByName("../BackEnd/results.txt");
 // Récupère la première ligne du fichier
 const firstLine = result.split("\n")[0];
 displayDirector(firstLine);

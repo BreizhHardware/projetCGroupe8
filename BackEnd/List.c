@@ -79,6 +79,10 @@ struct List* copyList(struct List* l){
 }
 
 void printList(struct List* l){
+    if(l->size == 0){
+        printf("List is empty\n");
+        return;
+    }
     struct Cell* tmp = l->head;
     while(tmp != NULL){
         printf("%s %s %s %s\n", tmp->movie->director,tmp->movie->name,tmp->movie->time,tmp->movie->category);
