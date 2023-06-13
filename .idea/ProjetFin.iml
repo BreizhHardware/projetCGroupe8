@@ -5,6 +5,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/BackEnd/.idea/shelf" />
+      <excludeFolder url="file://$MODULE_DIR$/BackEnd/cmake-build-debug/CMakeFiles/3.18.4/CompilerIdC/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/BackEnd/cmake-build-debug/CMakeFiles/CMakeTmp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
