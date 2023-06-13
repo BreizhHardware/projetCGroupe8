@@ -1,5 +1,5 @@
 // -----------fonction display-------------
-function displayDirector(){
+function displayDirector(time){
     const queryString = window.location.search;
 
     //Verifie si le parametre director est present dans l'url
@@ -12,7 +12,7 @@ function displayDirector(){
 
         let resultTitle = document.getElementById("resultTitle");
 
-        resultTitle.innerHTML = "Film par " + director + " :<br> Temps de recherche : 1ms";
+        resultTitle.innerHTML = "Film par " + director + " :<br> Temps de recherche : " + time + "s";
 
         readAndDisplay();
 
@@ -20,35 +20,35 @@ function displayDirector(){
 }
 
 
-function displayDuree(){
+function displayDuree(time){
     const queryString = window.location.search;
     if(queryString.includes("duree")){
         const urlParms = new URLSearchParams(queryString);
         const duree = urlParms.get('duree');
         let resultTitle = document.getElementById("resultTitle");
-        resultTitle.innerHTML = "Film de " + duree + " minutes :<br> Temps de recherche : 1ms";
+        resultTitle.innerHTML = "Film de " + duree + " minutes :<br> Temps de recherche : " + time + "s";
         readAndDisplay();
     }
 }
 
-function displayCategorie(){
+function displayCategorie(time){
     const queryString = window.location.search;
     if(queryString.includes("categorie")){
         const urlParms = new URLSearchParams(queryString);
         const categorie = urlParms.get('categorie');
         let resultTitle = document.getElementById("resultTitle");
-        resultTitle.innerHTML = "Film de la catégorie " + categorie + " :<br> Temps de recherche : 1ms";
+        resultTitle.innerHTML = "Film de la catégorie " + categorie + " :<br> Temps de recherche : " + time + "s";
         readAndDisplay();
     }
 }
 
-function displayFilm(){
+function displayFilm(time){
     const queryString = window.location.search;
     if(queryString.includes("film")){
         const urlParms = new URLSearchParams(queryString);
         const film = urlParms.get('film');
         let resultTitle = document.getElementById("resultTitle");
-        resultTitle.innerHTML = "Film contenant " + film + " :<br> Temps de recherche : 1ms";
+        resultTitle.innerHTML = "Film contenant " + film + " :<br> Temps de recherche : " + time + "s";
         readAndDisplay();
     }
 }
@@ -56,8 +56,7 @@ function displayFilm(){
 function displayAll(){
     const queryString = window.location.search;
     if(queryString.includes("All")){
-        let resultTitle = document.getElementById("resultTitle");
-        resultTitle.innerHTML = "Tous les films :<br> Temps de recherche : 1ms";
+        let start = new Date().getTime();
         const result = readFileByName("../BackEnd/BD_big.txt");
 
         // Récupère le tableau de films
@@ -87,6 +86,11 @@ function displayAll(){
 
         // Calculer le nombre total de pages
         totalPages = Math.ceil(films.length / filmsPerPage);
+        let end = new Date().getTime();
+        let time = (end - start) / 1000;
+        // Affiche la recherche
+        let resultTitle = document.getElementById("resultTitle");
+        resultTitle.innerHTML = "Tous les films :<br> Temps de recherche : " + time + "s";
         // Afficher la première page
         displayPage(currentPage);
     }
@@ -153,16 +157,6 @@ function readFileByName(fileName){
     return xhr.responseText;
 }
 
-function readFile(){
-    readFileByName("ready.txt");
-    return readFileByName("results.txt");
-}
-// -------------------------
-
-
-function callWrite() {
-    writeFile("form-findByDirector",  )
-}
 
 // ------- READ AND DISPLAY -------
 
@@ -171,11 +165,10 @@ let currentPage = 1;
 const filmsPerPage = 20;
 
 function readAndDisplay() {
-    const result = readFileByName("../BackEnd/results.txt");
-
-    // Récupère le tableau de films
+    const result = readFileByName("../BackEnd/result.txt");
+    // Récupère le tableau de films a partir de la 2eme ligne
     films = result.split("\n");
-
+    films.shift();
     if (films.length === 0) {
         let alert = document.getElementById("result");
         alert.innerHTML = "Aucun film trouvé";
@@ -191,15 +184,15 @@ function readAndDisplay() {
         films[i] = films[i].replace("\r", "");
     }
 
+    films.filter[Boolean];
+
     // Split chaque élément du tableau en un tableau de 4 éléments
-    for (let i = 0; i < films.length; i++) {
-        films[i] = films[i].split(";");
-    }
+    films = films.map(film => film.split(";"));
 
     films.sort((a, b) => a[1].localeCompare(b[1]));
 
     // Calculer le nombre total de pages
-    totalPages = Math.ceil(films.length / filmsPerPage);
+    totalPages = Math.ceil(films.length-1 / filmsPerPage);
     // Afficher la première page
     displayPage(currentPage);
 }
@@ -249,8 +242,8 @@ function clearContainers() {
 
 function updatePagination(page) {
     // Mettre à jour le numéro de page affiché
-    let resultTitle = document.getElementById("pageNumbers");
-    resultTitle.innerText = "Page " + page;
+    let pageNumber = document.getElementById("pageNumbers");
+    pageNumber.innerText = "Page " + page;
 
     // Afficher ou masquer les boutons de navigation en fonction de la page actuelle
     let previousButton = document.getElementById("previousButton");
@@ -283,6 +276,16 @@ function goToNextPage() {
     }
 }
 
+function goToFirstPage() {
+    currentPage = 1;
+    displayPage(currentPage);
+}
+
+function goToLastPage() {
+    currentPage = totalPages;
+    displayPage(currentPage);
+}
+
 function addCard(container, real, title, duree, categorie){
     let card = document.createElement("div");
     card.classList.add("card");
@@ -290,13 +293,18 @@ function addCard(container, real, title, duree, categorie){
     container.appendChild(card);
 }
 
+
+
 // -------------------------
 //Appel des fonctions
 
-displayDirector();
-displayDuree();
-displayCategorie();
-displayFilm();
+const result = readFileByName("../BackEnd/result.txt");
+// Récupère la première ligne du fichier
+const firstLine = result.split("\n")[0];
+displayDirector(firstLine);
+displayDuree(firstLine);
+displayCategorie(firstLine);
+displayFilm(firstLine);
+displayMostMovies(firstLine);
+displayFallBack(firstLine);
 displayAll();
-displayMostMovies();
-displayFallBack();

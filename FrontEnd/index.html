@@ -18,7 +18,7 @@
         <form id="formDirector" action="result.html">
             <p id="directorError" class="error"></p>
             <input type="text" id="director" class="searchField" name="director" placeholder="Rechercher par le nom d'un réalisateur"><br>
-            <button type="submit" id="directorButton" class="searchButton" onclick="writeFile('formDirector', 'searchByDirector')" disabled>Rechercher par realisateur</button>
+            <button type="submit" id="directorButton" class="searchButton" disabled>Rechercher par realisateur</button>
         </form>
         <form id="formDuree" action="result.html">
             <p id="dureeError" class="error"></p>
@@ -41,7 +41,7 @@
         </form>
         <form id="formAll" action="result.html">
             <input type="text" style="display: none" name="All">
-            <button type="submit" id="researchAll" onclick="writeFile('formAll', 'searchAll')" class="searchButton">Tout rechercher</button><br>
+            <button type="submit" id="researchAll" class="searchButton">Tout rechercher</button><br>
         </form>
         <form id="formStop"></form>
         <button id="stop" onclick="writeFile('formStop', 'stopServer')">Couper le serveur</button>

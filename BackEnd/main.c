@@ -29,14 +29,14 @@ int main(){
     double time_taken = ((double)start)/CLOCKS_PER_SEC;
     printList(result2);
     printResultInFile(result2,time_taken);
-    /*
+
     printf("\n-------------------------------------------------------\n");
     struct List* result3 = searchByCategory(tableau,"Action");
     printList(result3);
     printf("\n-------------------------------------------------------\n");
-    struct List* result4 = searchByFilm(tableau,"the");
+    struct List* result4 = searchByFilm(tableau,"The");
     printList(result4);
-     */
+
 
     return 0;
 }

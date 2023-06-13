@@ -168,3 +168,21 @@ h1{
     justify-content: center;
     flex-direction: row;
 }
+
+#navButton2{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.pageButton2{
+    height: 2em;
+    width: auto;
+    background-color: #3b428a;
+    border: none;
+    align-self: center;
+    margin-bottom: 1em;
+    cursor: pointer;
+    color: white;
+}

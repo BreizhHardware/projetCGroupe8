@@ -141,7 +141,7 @@ struct List* searchByCategory(struct List* table[], char* category){
             struct Cell* inter = table[i]->head;
             int length = table[i]->size;
             for(int j=0;j<length;j++){
-                if(inter->movie->category == category){
+                if(strcmp(inter->movie->category,category) == 0){
                     addFirst(result,inter->movie);
                 }
             }
@@ -160,7 +160,8 @@ struct List* searchByFilm(struct List* table[LENGTH], char* name){
             struct Cell* inter = table[i]->head;
             int length = table[i]->size;
             for(int j=0; j<length; j++){
-                if(inter->movie->name == name){
+                //Si le nom du film contient le nom recherché
+                if(strstr(inter->movie->name,name) != NULL){
                     addFirst(result,inter->movie);
                 }
             }
@@ -266,5 +267,6 @@ void printResultInFile(struct List* result, double time){
     //ecrit ready.txt pour dire que le fichier est pret a etre lu
     FILE *fichier2;
     fichier2 = fopen("ready.txt", "w");
+    fprintf(fichier2,"ready");
     fclose(fichier2);
 }

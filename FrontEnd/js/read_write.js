@@ -1,29 +1,24 @@
 // ------- WRITE FILE -------
-function writeFile(id_form,func) {
-
+function writeFile(id_form, func) {
     let element = document.createElement('a');
-
     let text1 = document.getElementById(id_form);
     let count = text1.elements.length;
     let textToSave = func;
-    for(let i = 0;i<count-1;i++){
+
+    for (let i = 0; i < count - 1; i++) {
         textToSave += ";" + text1[i].value;
     }
 
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textToSave));
     element.setAttribute('download', 'request.txt');
-
     element.style.display = 'none';
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-    while(true){
-        if(readFileByName("../BackEnd/results.txt") !== ""){
-            break;
-        }
-    }
 
-   // text1.submit();
+    return new Promise((resolve, reject) => {
+        checkFile(resolve);
+    });
 }
 // -------------------------
 
@@ -52,6 +47,66 @@ function readFile(){
 function callWrite() {
     writeFile("form-findByDirector",  )
 }
+// -------- CHECK FILE --------
 
+function checkFile(resolve) {
+    if (readFileByName("../BackEnd/ready.txt") !== "") {
+        resolve();
+    } else {
+        setTimeout(() => checkFile(resolve), 1000);
+    }
+}
 
 const result =  readFileByName("../BackEnd/results.txt");
+
+// ----------ON CLICK----------
+
+document.getElementById('directorButton').addEventListener('click', function() {
+    writeFile('formDirector', 'searchByDirector')
+        .then(() => {
+            // Envoi du formulaire formDirector
+            document.getElementById('formDirector').submit();
+        })
+        .catch((error) => {
+        });
+});
+
+document.getElementById('dureeButton').addEventListener('click', function() {
+    writeFile('formDuree', 'searchByDuree')
+        .then(() => {
+            // Envoi du formulaire formDuree
+            document.getElementById('formDuree').submit();
+        })
+        .catch((error) => {
+        });
+});
+
+document.getElementById('categorieButton').addEventListener('click', function() {
+    writeFile('formCategorie', 'searchByCategorie')
+        .then(() => {
+            // Envoi du formulaire formCategorie
+            document.getElementById('formCategorie').submit();
+        })
+        .catch((error) => {
+        });
+});
+
+document.getElementById('filmButton').addEventListener('click', function() {
+    writeFile('formFilm', 'searchByFilm')
+        .then(() => {
+            // Envoi du formulaire formFilm
+            document.getElementById('formFilm').submit();
+        })
+        .catch((error) => {
+        });
+});
+
+document.getElementById('realMostMovie').addEventListener('click', function() {
+    writeFile('formMostMovie', 'searchRealMostMovie')
+        .then(() => {
+            // Envoi du formulaire formRealMostMovie
+            document.getElementById('formMostMovie').submit();
+        })
+        .catch((error) => {
+        });
+});
