@@ -82,7 +82,7 @@ struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie){
     return table[realTime];
 }
 
-void initFilmo(char* nameFile,struct List* table,struct Filmotheque* filmo){
+void initFilmo(char* nameFile,struct List** table,struct Filmotheque* filmo){
     FILE *fichier;
     fichier = fopen(nameFile, "r");
 
@@ -103,7 +103,6 @@ void initFilmo(char* nameFile,struct List* table,struct Filmotheque* filmo){
         //Remove the \r\n at the end of the line
         category[strlen(category) - 2] = '\0';
         struct Movie* movie = createMovie(director, name, time,category);
-        free(director);
         addMovieInTable(table,movie);
         addMovie(filmo,movie);
     }
@@ -154,20 +153,27 @@ struct List* searchByCategory(struct List* table[LENGTH], char* category){
 
 struct List* searchByFilm(struct List* table[LENGTH], char* name){
     struct List* result = createEmptyList();
-    for(int i = 0;i<LENGTH;i++){
-        if(table[i]==NULL){
-            return NULL;
-        }
-        else{
+    char *titleLower = calloc(sizeof(char), MAX_LETTERS);
+    char *searchLower = calloc(sizeof(char), MAX_LETTERS);
+    for(int i=0; i<LENGTH; i++){
+        if(table[i] != NULL){
             struct Cell* inter = table[i]->head;
             int length = table[i]->size;
-            for(int j = 0;j<length;j++){
-                if(inter->movie->name == name){
+            while (length != 0) {
+                strcpy(titleLower, inter->movie->name);
+                strcpy(searchLower, name);
+                toLowercase(searchLower);
+                toLowercase(titleLower);
+                if(strstr(titleLower, searchLower) != NULL){
                     addFirst(result,inter->movie);
                 }
+                inter = inter->next;
+                --length;
             }
         }
     }
+    free(titleLower);
+    free(searchLower);
     return result;
 }
 
@@ -265,6 +271,7 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         deleteFile();
         return 8;
     }
+    return 0;
 }
 
 void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGTH]){

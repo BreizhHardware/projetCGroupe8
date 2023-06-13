@@ -23,8 +23,8 @@ struct Movie* createMovie(char* director, char* name, char* time, char* category
 
 void deleteMovie(struct Movie* movie){
     free(movie->director);
-    free(movie->category);
     free(movie->name);
     free(movie->time);
+    free(movie->category);
     free(movie);
 }

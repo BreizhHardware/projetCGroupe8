@@ -17,6 +17,12 @@ int main() {
     struct Filmotheque *filmo = createEmptyFilmo();
     initFilmo(fichier, tableau, filmo);
 
+    struct List* test = searchByFilm(tableau, "The");
+
+    printList(test);
+
+    free(test);
+
     while (stop != 8) {
         //check if requests.txt exist but don't create it if it doesn't exist
         FILE *verif = fopen("requests.txt", "r");

@@ -17,7 +17,7 @@ struct Filmotheque{
 
 struct Filmotheque* createEmptyFilmo();
 
-void initFilmo(char* nameFile,struct List* table,struct Filmotheque* filmo);
+void initFilmo(char* nameFile,struct List** table,struct Filmotheque* filmo);
 
 struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie);
 
