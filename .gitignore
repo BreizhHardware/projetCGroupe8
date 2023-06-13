@@ -3,6 +3,7 @@ cmake-build-debug/
 requests (1).txt
 testFinal
 Filmotheque
+*.o
 CMakelists.txt
 BackEnd/.idea/
 BackEnd/cmake-build-debug/
