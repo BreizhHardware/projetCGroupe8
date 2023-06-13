@@ -110,8 +110,6 @@ void initFilmo(char* nameFile,struct List** table,struct Filmotheque* filmo){
 }
 
 struct List* searchByDirector(struct Filmotheque* filmotheque, char* director){
-    printf("\nsearchByDirector\n");
-    printf("director : %s\n",director);
     struct List* copy = createEmptyList();
     struct NodeTrie* node = filmotheque->director;
     for(int i = 0; i < strlen(director); i++){
@@ -153,8 +151,8 @@ struct List* searchByCategory(struct List* table[LENGTH], char* category){
 
 struct List* searchByFilm(struct List* table[LENGTH], char* name){
     struct List* result = createEmptyList();
-    char *titleLower = calloc(sizeof(char), MAX_LETTERS);
-    char *searchLower = calloc(sizeof(char), MAX_LETTERS);
+    char *titleLower = calloc(sizeof(char), LENGTH);
+    char *searchLower = calloc(sizeof(char), LENGTH);
     for(int i=0; i<LENGTH; i++){
         if(table[i] != NULL){
             struct Cell* inter = table[i]->head;
@@ -193,7 +191,6 @@ struct List* searchRealMostMovie(struct Filmotheque* filmo){
 
 
 int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque* filmo) {
-    printf("\nreadRequest\n");
     FILE *fichier;
     fichier = fopen(request, "r");
 
@@ -211,8 +208,6 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         fonction = strtok(line, ";");
         argument = strtok(NULL, ";");
     }
-    printf("\nfonction : %s\n", fonction);
-    printf("argument : %s\n", argument);
     if (strcmp(fonction, "searchByDirector") == 0) {
         clock_t start;
         toLowercase(argument);
@@ -220,13 +215,9 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         struct List* result = searchByDirector(filmo, argument);
         start = clock() - start;
         double time_taken = ((double) start) / CLOCKS_PER_SEC;
-        printList(result);
         printResultInFile(result, time_taken);
-        printf("\nstart of the delay\n");
         delay(2);
-        printf("\nend of the delay\n");
         deleteFile();
-        free(argument);
         return 0;
     }
     else if (strcmp(fonction, "searchByTime") == 0) {
@@ -237,7 +228,6 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         double time_taken = ((double) start) / CLOCKS_PER_SEC;
         printResultInFile(result, time_taken);
         delay(2);
-        printf("\nend of the delay\n");
         deleteFile();
         return 0;
     }
@@ -249,7 +239,6 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         double time_taken = ((double) start) / CLOCKS_PER_SEC;
         printResultInFile(result, time_taken);
         delay(2);
-        printf("\nend of the delay\n");
         deleteFile();
         return 0;
     }
@@ -261,13 +250,11 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         double time_taken = ((double) start) / CLOCKS_PER_SEC;
         printResultInFile(result, time_taken);
         delay(2);
-        printf("\nend of the delay\n");
         deleteFile();
         return 0;
     }
     else if (strcmp(fonction,"stopServer") == 0) {
         delay(2);
-        printf("\nend of the delay\n");
         deleteFile();
         return 8;
     }
@@ -276,7 +263,6 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
 
 void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGTH]){
 
-    free(filmotheque->directorMax);
     for(int i = 0; i < LENGTH; i++){
         deleteList(&table[i]);
     }
@@ -285,7 +271,6 @@ void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGT
 }
 
 void printResultInFile(struct List* result, double time){
-    printf("\nprintResultInFile\n");
     FILE *fichier;
     fichier = fopen("results.txt", "w");
 
@@ -311,7 +296,6 @@ void printResultInFile(struct List* result, double time){
 }
 
 void deleteFile(){
-    printf("\ndeleteFile\n");
     char* ready_results = "ready.txt";
     char* results = "results.txt";
     remove(ready_results);

@@ -42,7 +42,7 @@ void deleteFirst(struct List* l) {
     struct Cell* CellToDelete = l->head;
     l->head = l->head->next;
     l->size--;
-    deleteMovie(CellToDelete->movie);
+    //deleteMovie(CellToDelete->movie);
     free(CellToDelete);
     CellToDelete = NULL;
 }

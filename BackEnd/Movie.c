@@ -22,9 +22,21 @@ struct Movie* createMovie(char* director, char* name, char* time, char* category
 }
 
 void deleteMovie(struct Movie* movie){
-    free(movie->director);
-    free(movie->name);
-    free(movie->time);
-    free(movie->category);
+    if(movie->director != NULL){
+        free(movie->director);
+        movie -> director = NULL;
+    }
+    if(movie->name != NULL){
+        free(movie->name);
+        movie -> name = NULL;
+    }
+    if(movie->time != NULL){
+        free(movie->time);
+        movie -> time = NULL;
+    }
+    if(movie->category != NULL){
+        free(movie->category);
+        movie -> category = NULL;
+    }
     free(movie);
 }
