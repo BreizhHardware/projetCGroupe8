@@ -1,7 +1,7 @@
 // ------- WRITE FILE -------
 function writeFile(id_form,func) {
 
-    var element = document.createElement('a');
+    let element = document.createElement('a');
 
     let text1 = document.getElementById(id_form);
     let count = text1.elements.length;

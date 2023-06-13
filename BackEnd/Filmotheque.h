@@ -1,27 +1,31 @@
 #ifndef PROJETCGROUPE8_MAIN_FILMOTHEQUE_H
 #define PROJETCGROUPE8_MAIN_FILMOTHEQUE_H
-#define NUMBER_OF_CHAR 100
-#define LENGTH 12600
 
 #include "NodeTrie.h"
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-
 struct Filmotheque{
-    struct List* realMax;
+    char* directorMax;
     int maxMovies;
     struct NodeTrie* director;
 };
 
-struct Filmotheque* createEmptyFilmotheque();
-void addMovie(struct Filmotheque* filmotheque, char* real, char* movie, char* time, char* category);
-struct List* searchByDirector(struct Filmotheque* filmotheque, char* director);
-void deleteFilmotheque(struct Filmotheque** filmotheque);
-struct Filmotheque* recupInfo(char* nameFile);
+struct Filmotheque* createEmptyFilmo();
+
+void createTable(char* nameFile,struct List* table,struct Filmotheque* filmo);
+
+void addMovie(struct Filmotheque* filmotheque, struct Movie* movie);
+
 char* toLower(char* name);
-struct List* createTable(char* nameFile);
-void addMovieInTable(struct List** tableau, char* real, char* movie, char* time, char* category);
+
+struct List* searchByDirector(struct Filmotheque* filmotheque, char* director);
+
+struct List* searchByTime(struct List* tableau[LENGTH], char* time);
+
+struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie);
+
+void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGTH]);
 
 #endif //PROJETCGROUPE8_MAIN_FILMOTHEQUE_H

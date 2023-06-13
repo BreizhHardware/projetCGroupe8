@@ -1,32 +1,37 @@
-//
-// Created by felix on 27/01/23.
-//
+#ifndef PROJETCGROUPE8_MAIN_LIST_H
+#define PROJETCGROUPE8_MAIN_LIST_H
 
-#ifndef _LIST_H
-#define _LIST_H
-
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
 
 struct Cell{
-    char* director;
-    char* name;
-    char* time;
-    char* category;
+    struct Movie* movie;
     struct Cell* next;
 };
+
 struct List{
-    unsigned int size;
+    int size;
     struct Cell* head;
 };
 
-struct Cell* createCell(char* director, char* name, char* time, char* category);
+struct Cell* createCell(struct Movie* movie);
+
 struct List* createEmptyList();
-void addFirst(struct List* l, char* director, char* name, char* time, char* category);
-bool isListEmpty(struct List* l);
+
+void addFirst(struct List* l,struct Movie* movie);
+
+bool isCellEmpty(struct Cell* c);
+
 void deleteFirst(struct List* l);
+
+unsigned int listSize(struct List* l);
+
 void deleteList(struct List** l);
+
+struct List* copyList(struct List* l);
+
 void printList(struct List* l);
-#endif //_LIST_H
+
+
+#endif //PROJETCGROUPE8_MAIN_LIST_H

@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.18)
 project(untitled C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(untitled main.c Filmotheque.c List.c NodeTrie.c)
+add_executable(untitled Filmotheque.c main.c Movie.c NodeTrie.c List.c)

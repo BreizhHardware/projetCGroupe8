@@ -20,10 +20,13 @@ struct NodeTrie* createEmptyNodeTrie(){
     return trie;
 }
 
+
 void deleteNodeTrie(struct NodeTrie** trie){
     for(int i = 0; i<MAX_LETTERS; i++){
         if((*trie)->children[i]!=NULL){
             deleteNodeTrie(&(*trie)->children[i]);
+            //Delete the list of movies
+            //deleteList(&(*trie)->movie);
         }
     }
     free(*trie);

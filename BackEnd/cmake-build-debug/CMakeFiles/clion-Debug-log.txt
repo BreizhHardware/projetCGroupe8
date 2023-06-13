@@ -1,10 +1,10 @@
-C:\Users\BreizhHardware\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\231.9011.31\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Users/BreizhHardware/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/231.9011.31/bin/ninja/win/x64/ninja.exe -G Ninja -S C:\Users\BreizhHardware\Nextcloud\Programation\C\Isen\ProjetFin\BackEnd -B C:\Users\BreizhHardware\Nextcloud\Programation\C\Isen\ProjetFin\BackEnd\cmake-build-debug
--- The C compiler identification is GNU 11.2.0
+C:\Windows\system32\wsl.exe --distribution Debian --exec /bin/bash -c "export CMAKE_COLOR_DIAGNOSTICS=ON && export CLION_IDE=TRUE && export JETBRAINS_IDE=TRUE && cd /mnt/c/Users/BreizhHardware/Nextcloud/Programation/C/Isen/ProjetFin/BackEnd/cmake-build-debug && /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G 'CodeBlocks - Unix Makefiles' -S /mnt/c/Users/BreizhHardware/Nextcloud/Programation/C/Isen/ProjetFin/BackEnd -B /mnt/c/Users/BreizhHardware/Nextcloud/Programation/C/Isen/ProjetFin/BackEnd/cmake-build-debug"
+-- The C compiler identification is GNU 10.2.1
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
--- Check for working C compiler: C:/Users/BreizhHardware/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/231.9011.31/bin/mingw/bin/gcc.exe - skipped
+-- Check for working C compiler: /usr/bin/cc - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Users/BreizhHardware/Nextcloud/Programation/C/Isen/ProjetFin/BackEnd/cmake-build-debug
+-- Build files have been written to: /mnt/c/Users/BreizhHardware/Nextcloud/Programation/C/Isen/ProjetFin/BackEnd/cmake-build-debug

@@ -1,40 +1,32 @@
-//
-// Created by felix on 27/01/23.
-//
+//création include
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<string.h>
+#include"List.h"
+#include "Movie.h"
 
-#include "List.h"
-
-struct Cell* createCell(char* director, char* name, char* time, char* category){
-    struct Cell* cell = malloc(sizeof(struct Cell));
-    if(cell == NULL){
+//opération sur la struct
+struct Cell* createCell(struct Movie* movie) {
+    struct Cell *cell = malloc(sizeof(struct Cell));
+    if (cell == NULL) {
         printf("error malloc");
         return NULL;
     }
-    cell->director = malloc(sizeof(char) * (strlen(director) + 1));
-    cell->name = malloc(sizeof(char) * (strlen(name) + 1));
-    cell->time = malloc(sizeof(char) * (strlen(time) + 1));
-    cell->category = malloc(sizeof(char) * (strlen(category) + 1));
-    strcpy(cell->director, director);
-    strcpy(cell->name, name);
-    strcpy(cell->time, time);
-    strcpy(cell->category, category);
+    cell->movie = movie;
     cell->next = NULL;
     return cell;
 }
 
-struct List* createEmptyList(){
-    struct List* list = malloc(sizeof(struct List));
-    if(list == NULL){
-        printf("error malloc");
-        return NULL;
-    }
-    list->size = 0;
-    list->head = NULL;
-    return list;
+struct List * createEmptyList(){
+    struct List* l = malloc(sizeof(struct List));
+    l->size = 0;
+    l->head = NULL;
+    return l;
 }
 
-void addFirst(struct List* l, char* director, char* name, char* time, char* category){
-    struct Cell* cell = createCell(director, name, time, category);
+void addFirst(struct List* l,struct Movie* movie){
+    struct Cell* cell = createCell(movie);
     if(l->head == NULL){
         l->head = cell;
     }
@@ -45,38 +37,51 @@ void addFirst(struct List* l, char* director, char* name, char* time, char* cate
     l->size++;
 }
 
-bool isListEmpty(struct List* l){
-    if(l == NULL){
-        return true;
+
+void deleteFirst(struct List* l) {
+    if (isCellEmpty(l->head)) {
+        return;
     }
-    return l->size == 0;
+    struct Cell *next = l->head->next;
+    free(l->head);
+    l->head = next;
+    l->size--;
 }
 
-void deleteFirst(struct List* l){
-    if(l->head != NULL){
-        struct Cell* tmp = l->head;
-        l->head = l->head->next;
-        free(tmp);
-        l->size--;
-    }
+unsigned int listSize(struct List* l){
+    return l->size;
 }
 
 void deleteList(struct List** l){
-    while(!isListEmpty(*l)){
+    //Use isCellEmpty to check if the cell is empty
+    while(!isCellEmpty((*l)->head)){
         deleteFirst(*l);
     }
     free(*l);
     *l = NULL;
 }
 
-void printList(struct List* l){
-    if(isListEmpty(l)){
-        printf("List is empty\n");
-        return;
+bool isCellEmpty(struct Cell* c){
+    if(c -> movie == NULL){
+        return true;
     }
+    return false;
+}
+
+struct List* copyList(struct List* l){
+    struct List* copy = createEmptyList();
+    struct Cell* current = l->head;
+    while(current != NULL){
+        addFirst(copy,current->movie);
+        current = current->next;
+    }
+    return copy;
+}
+
+void printList(struct List* l){
     struct Cell* tmp = l->head;
     while(tmp != NULL){
-        printf("%s %s %s %s\n", tmp->director, tmp->name, tmp->time, tmp->category);
+        printf("%s %s %s %s\n", tmp->movie->director,tmp->movie->name,tmp->movie->time,tmp->movie->category);
         tmp = tmp->next;
     }
 }

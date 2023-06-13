@@ -17,6 +17,12 @@ struct NodeTrie{
 
 struct NodeTrie* createEmptyNodeTrie();
 
+void insertWord(struct NodeTrie* trie, char* word);
+
+void deleteWord(struct NodeTrie* trie, char* word);
+
+bool findWord(struct NodeTrie* trie, char* word);
+
 void deleteNodeTrie(struct NodeTrie** trie);
 
 #endif //PROJETCGROUPE8_MAIN_NODETRIE_H

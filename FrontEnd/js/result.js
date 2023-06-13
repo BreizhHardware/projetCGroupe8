@@ -17,9 +17,6 @@ function displayDirector(){
         readAndDisplay();
 
     }
-    else{
-        console.warn("Parametre director non trouvé");
-    }
 }
 
 
@@ -32,9 +29,6 @@ function displayDuree(){
         resultTitle.innerHTML = "Film de " + duree + " minutes :<br> Temps de recherche : 1ms";
         readAndDisplay();
     }
-    else{
-        console.warn("Parametre duree non trouvé");
-    }
 }
 
 function displayCategorie(){
@@ -45,9 +39,6 @@ function displayCategorie(){
         let resultTitle = document.getElementById("resultTitle");
         resultTitle.innerHTML = "Film de la catégorie " + categorie + " :<br> Temps de recherche : 1ms";
         readAndDisplay();
-    }
-    else{
-        console.warn("Parametre categorie non trouvé");
     }
 }
 
@@ -60,9 +51,6 @@ function displayFilm(){
         resultTitle.innerHTML = "Film contenant " + film + " :<br> Temps de recherche : 1ms";
         readAndDisplay();
     }
-    else{
-        console.warn("Parametre film non trouvé");
-    }
 }
 
 function displayAll(){
@@ -70,7 +58,7 @@ function displayAll(){
     if(queryString.includes("All")){
         let resultTitle = document.getElementById("resultTitle");
         resultTitle.innerHTML = "Tous les films :<br> Temps de recherche : 1ms";
-        const result = readFileByName("../BackEnd/BD_medium.txt");
+        const result = readFileByName("../BackEnd/BD_big.txt");
 
         // Récupère le tableau de films
         films = result.split("\n");
@@ -102,9 +90,6 @@ function displayAll(){
         // Afficher la première page
         displayPage(currentPage);
     }
-    else{
-        console.warn("Parametre all non trouvé");
-    }
 }
 
 function displayMostMovies(){
@@ -114,9 +99,6 @@ function displayMostMovies(){
         resultTitle.innerHTML = "Réalisateur avec le plus de films :<br> Temps de recherche : 1ms";
         readAndDisplay();
     }
-    else{
-        console.warn("Parametre mostMovies non trouvé");
-    }
 }
 
 function displayFallBack(){
@@ -124,9 +106,6 @@ function displayFallBack(){
     if(queryString.includes("director") === false && queryString.includes("duree") === false && queryString.includes("categorie") === false && queryString.includes("film") === false && queryString.includes("All") === false && queryString.includes("MostMovies") === false){
         let resultTitle = document.getElementById("resultTitle");
         resultTitle.innerHTML = "Aucun parametre trouvé";
-    }
-    else{
-        console.warn("Parametre non trouvé");
     }
 }
 
