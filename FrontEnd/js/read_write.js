@@ -10,7 +10,7 @@ function writeFile(id_form, func) {
     }
 
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textToSave));
-    element.setAttribute('download', 'request.txt');
+    element.setAttribute('download', 'requests.txt');
     element.style.display = 'none';
     document.body.appendChild(element);
     element.click();
