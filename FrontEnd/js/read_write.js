@@ -17,6 +17,11 @@ function writeFile(id_form,func) {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+    while(true){
+        if(readFileByName("../BackEnd/results.txt") !== ""){
+            break;
+        }
+    }
 
    // text1.submit();
 }

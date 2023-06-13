@@ -258,8 +258,8 @@ void printResultInFile(struct List* result, double time){
     int length = result->size;
     for(int i=0; i<length; i++){
         //Don't supr the last charactere of the category
-        printf("%s\n", inter->movie->category);
-        fprintf(fichier,"%s;%s;%s;%s\n",inter->movie->director,inter->movie->name,inter->movie->time,inter->movie->category);
+        int categoryLength = strlen(inter->movie->category);
+        fprintf(fichier,"%s;%s;%s;%.*s\n",inter->movie->director,inter->movie->name,inter->movie->time,categoryLength,inter->movie->category);
         inter = inter->next;
     }
     fclose(fichier);
