@@ -5,14 +5,15 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <ctype.h>
 
 struct Filmotheque{
     char* directorMax;
     int maxMovies;
     struct NodeTrie* director;
 };
-
-char* toLower(char* name);
 
 struct Filmotheque* createEmptyFilmo();
 
@@ -31,6 +32,10 @@ struct List* searchByCategory(struct List* table[LENGTH], char* category);
 struct List* searchByFilm(struct List* table[LENGTH], char* name);
 
 void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGTH]);
+
+void toLowercase(char* str);
+
+struct List* searchRealMostMovie(struct Filmotheque* filmo);
 
 int readRequest(char* request, struct List* tableau[LENGTH],struct Filmotheque* filmo);
 

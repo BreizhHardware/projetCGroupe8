@@ -183,6 +183,8 @@ function readAndDisplay() {
     for (let i = 0; i < films.length; i++) {
         films[i] = films[i].replace("\r", "");
     }
+    // Retire le dernier élément du tableau (vide)
+    films.pop();
 
     films.filter[Boolean];
 
@@ -194,7 +196,7 @@ function readAndDisplay() {
 
 
     // Calculer le nombre total de pages
-    totalPages = Math.ceil(films.length-1 / filmsPerPage);
+    totalPages = Math.ceil(films.length / filmsPerPage);
     // Afficher la première page
     displayPage(currentPage);
 }

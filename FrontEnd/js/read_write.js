@@ -20,7 +20,19 @@ function writeFile(id_form, func) {
         checkFile(resolve);
     });
 }
-// -------------------------
+// ----------WRITE FILE STOP----------
+
+function writeFileStop(func){
+    let element = document.createElement('a');
+    let textToSave = func;
+
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textToSave));
+    element.setAttribute('download', 'requests.txt');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
 
 
 // ------- READ FILE -------

@@ -6,27 +6,33 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/Filmotheque.c
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/Filmotheque.c
+Movie.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/Movie.h
+Filmotheque.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/Filmotheque.h
+NodeTrie.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/NodeTrie.h
+List.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/List.h
+
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/Filmotheque.h
+NodeTrie.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/NodeTrie.h
+stdbool.h
+-
+stdlib.h
+-
 stdio.h
 -
 string.h
--
-stdlib.h
 -
 time.h
 -
-Movie.h
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/Movie.h
-Filmotheque.h
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/Filmotheque.h
-NodeTrie.h
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/NodeTrie.h
-List.h
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/List.h
+ctype.h
+-
 
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/Filmotheque.h
-NodeTrie.h
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/NodeTrie.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/List.h
 stdbool.h
 -
 stdlib.h
@@ -34,19 +40,11 @@ stdlib.h
 stdio.h
 -
 
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/List.h
-stdbool.h
--
-stdlib.h
--
-stdio.h
--
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/Movie.h
 
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/Movie.h
-
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/NodeTrie.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/NodeTrie.h
 List.h
-/mnt/c/Users/BreizhHardware/Downloads/ProjetFin/BackEnd/List.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/List.h
 string.h
 -
 stdbool.h
@@ -55,4 +53,12 @@ stdlib.h
 -
 stdio.h
 -
+
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/main.c
+Filmotheque.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/Filmotheque.h
+List.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/List.h
+Movie.h
+/mnt/d/Nextcloud/To transfert/ProjetFin/BackEnd/Movie.h
 

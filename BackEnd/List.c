@@ -39,26 +39,30 @@ void addFirst(struct List* l,struct Movie* movie){
 
 
 void deleteFirst(struct List* l) {
-    if (isCellEmpty(l->head)) {
-        return;
-    }
-    struct Cell *next = l->head->next;
-    free(l->head);
-    l->head = next;
+    struct Cell* CellToDelete = l->head;
+    l->head = l->head->next;
     l->size--;
+    deleteMovie(CellToDelete->movie);
+    free(CellToDelete);
+    CellToDelete = NULL;
 }
 
 unsigned int listSize(struct List* l){
+    if(l == NULL){
+        return 0;
+    }
     return l->size;
 }
 
 void deleteList(struct List** l){
-    //Use isCellEmpty to check if the cell is empty
-    while(!isCellEmpty((*l)->head)){
+    if(*l == NULL){
+        return;
+    }
+    unsigned int size = listSize(*l);
+    for(unsigned int i = 0; i < size; i++){
         deleteFirst(*l);
     }
     free(*l);
-    *l = NULL;
 }
 
 bool isCellEmpty(struct Cell* c){

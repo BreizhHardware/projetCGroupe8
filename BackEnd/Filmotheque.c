@@ -1,11 +1,6 @@
 #define LENGTH 12600
 #define NUMBER_OF_CHAR 500000
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-
 #include "Movie.h"
 #include "Filmotheque.h"
 #include "NodeTrie.h"
@@ -100,13 +95,15 @@ void initFilmo(char* nameFile,struct List* table,struct Filmotheque* filmo){
     char line[NUMBER_OF_CHAR];
 
     while(fgets(line,sizeof(line),fichier) != NULL){
-        char* director = toLower((strtok(line, ";")));
+        char* director = (strtok(line, ";"));
+        toLowercase(director);
         char* name = strtok(NULL, ";");
         char* time = strtok(NULL, ";");
         char* category = strtok(NULL, ";");
         //Remove the \r\n at the end of the line
         category[strlen(category) - 2] = '\0';
         struct Movie* movie = createMovie(director, name, time,category);
+        free(director);
         addMovieInTable(table,movie);
         addMovie(filmo,movie);
     }
@@ -175,22 +172,11 @@ struct List* searchByFilm(struct List* table[LENGTH], char* name){
 }
 
 
-char* toLower(char* name){
-    int length = strlen(name);
-    char* lower = malloc(sizeof(char) * (length + 1));
-    if (lower == NULL) {
-        printf("error malloc");
-        return NULL;
+void toLowercase(char* str) {
+    int i;
+    for (i = 0; str[i] != '\0'; i++) {
+        str[i] = tolower(str[i]);
     }
-    for (int i = 0; i < length; i++) {
-        if (name[i] >= 'A' && name[i] <= 'Z') {
-            lower[i] = name[i] + 32;
-        } else {
-            lower[i] = name[i];
-        }
-    }
-    lower[length] = '\0';
-    return lower;
 }
 
 struct List* searchRealMostMovie(struct Filmotheque* filmo){
@@ -219,9 +205,11 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         fonction = strtok(line, ";");
         argument = strtok(NULL, ";");
     }
+    printf("\nfonction : %s\n", fonction);
+    printf("argument : %s\n", argument);
     if (strcmp(fonction, "searchByDirector") == 0) {
         clock_t start;
-        argument = toLower(argument);
+        toLowercase(argument);
         start = clock();
         struct List* result = searchByDirector(filmo, argument);
         start = clock() - start;
@@ -232,6 +220,7 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         delay(2);
         printf("\nend of the delay\n");
         deleteFile();
+        free(argument);
         return 0;
     }
     else if (strcmp(fonction, "searchByTime") == 0) {
@@ -277,27 +266,14 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         return 8;
     }
 }
-    /*
-    if(fonction == 'searchByCategorie'){
-        return searchByCategorie(var);
-    }
-    if(fonction == 'searchByFilm'){
-        return searchByFilm(var);
-    }
-}
-*/
-//verifier si le fichier est la faire une boucle et a l'aide d'un fopen() quand on y a acces le fichier est alors present
 
 void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGTH]){
-    //Delete all the sub tree from the trie filmotheque->director
-    deleteNodeTrie(filmotheque->director);
-    /*
+
+    free(filmotheque->directorMax);
     for(int i = 0; i < LENGTH; i++){
-        if(table[i] != NULL){
-            deleteList(table[i]);
-        }
+        deleteList(&table[i]);
     }
-     */
+    deleteNodeTrie(&filmotheque->director);
     free(filmotheque);
 }
 
