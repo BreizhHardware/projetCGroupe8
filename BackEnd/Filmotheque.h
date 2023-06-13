@@ -24,8 +24,14 @@ struct List* searchByDirector(struct Filmotheque* filmotheque, char* director);
 
 struct List* searchByTime(struct List* tableau[LENGTH], char* time);
 
+struct List* searchByCategory(struct List* table[], char* category);
+
+struct List* searchByFilm(struct List* table[LENGTH], char* name);
+
 struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie);
 
 void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGTH]);
+
+void printResultInFile(struct List* result, double time);
 
 #endif //PROJETCGROUPE8_MAIN_FILMOTHEQUE_H

@@ -68,6 +68,10 @@ void addMovie(struct Filmotheque* filmotheque, struct Movie* movie) {
         node->movie = createEmptyList();
         addFirst(node->movie,movie);
     }
+    if (node->movie->size > filmotheque->maxMovies) {
+        filmotheque->maxMovies = node->movie->size;
+        filmotheque->directorMax = node->movie->head->movie->director;
+    }
 }
 
 struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie){
@@ -128,6 +132,41 @@ struct List* searchByDirector(struct Filmotheque* filmotheque, char* director){
 struct List* searchByTime(struct List* table[LENGTH], char* time){
     int realTime = atoi(time);
     return table[realTime];
+}
+
+struct List* searchByCategory(struct List* table[], char* category){
+    struct List* result = createEmptyList();
+    for(int i = 0;i<LENGTH;i++){
+        if(table[i] != NULL){
+            struct Cell* inter = table[i]->head;
+            int length = table[i]->size;
+            for(int j=0;j<length;j++){
+                if(inter->movie->category == category){
+                    addFirst(result,inter->movie);
+                }
+            }
+        }
+    }
+    return result;
+}
+
+struct List* searchByFilm(struct List* table[LENGTH], char* name){
+    struct List* result = createEmptyList();
+    for(int i=0; i<LENGTH; i++){
+        if(table[i] == NULL){
+            break;
+        }
+        else{
+            struct Cell* inter = table[i]->head;
+            int length = table[i]->size;
+            for(int j=0; j<length; j++){
+                if(inter->movie->name == name){
+                    addFirst(result,inter->movie);
+                }
+            }
+        }
+    }
+    return result;
 }
 
 
@@ -203,4 +242,29 @@ void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGT
     }
      */
     free(filmotheque);
+}
+
+void printResultInFile(struct List* result, double time){
+    FILE *fichier;
+    fichier = fopen("result.txt", "w");
+
+    if (fichier == NULL) {
+        printf("Erreur lors de l'ouverture du fichier");
+        exit(1);
+    }
+
+    fprintf(fichier,"%f\n",time);
+    struct Cell* inter = result->head;
+    int length = result->size;
+    for(int i=0; i<length; i++){
+        //Don't supr the last charactere of the category
+        printf("%s\n", inter->movie->category);
+        fprintf(fichier,"%s;%s;%s;%s\n",inter->movie->director,inter->movie->name,inter->movie->time,inter->movie->category);
+        inter = inter->next;
+    }
+    fclose(fichier);
+    //ecrit ready.txt pour dire que le fichier est pret a etre lu
+    FILE *fichier2;
+    fichier2 = fopen("ready.txt", "w");
+    fclose(fichier2);
 }
