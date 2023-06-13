@@ -5,13 +5,12 @@ function displayDirector(time){
     //Verifie si le parametre director est present dans l'url
     if(queryString.includes("director")){
     //Récupère la valeur du parametre director
-
         const urlParams = new URLSearchParams(queryString);
 
         const director = urlParams.get('director');
 
         let resultTitle = document.getElementById("resultTitle");
-
+        // Affiche la recherche et le temps de recherche
         resultTitle.innerHTML = "Film par " + director + " :<br> Temps de recherche : " + time + "s";
 
         readAndDisplay();
@@ -54,14 +53,18 @@ function displayFilm(time){
 }
 
 function displayAll(){
+    // Récupère le paramètre de l'URL
     const queryString = window.location.search;
+    // Vérifie si le paramètre "All" est présent dans l'URL
     if(queryString.includes("All")){
+        // Récupère le temps de recherche
         let start = new Date().getTime();
+        // Récupère le contenu du fichier
         const result = readFileByName("../BackEnd/BD_big.txt");
 
         // Récupère le tableau de films
         films = result.split("\n");
-
+        // Vérifie si aucun film n'a été trouvé
         if (films.length === 0) {
             let alert = document.getElementById("result");
             alert.innerHTML = "Aucun film trouvé";
@@ -81,14 +84,16 @@ function displayAll(){
         for (let i = 0; i < films.length; i++) {
             films[i] = films[i].split(";");
         }
-
+        // Trie le tableau par ordre alphabétique
         films.sort((a, b) => a[1].localeCompare(b[1]));
 
         // Calculer le nombre total de pages
         totalPages = Math.ceil(films.length / filmsPerPage);
+        // Récupère le temps de recherche
         let end = new Date().getTime();
+        // Calcul le temps de recherche en secondes
         let time = (end - start) / 1000;
-        // Affiche la recherche
+        // Affiche la recherche et le temps de recherche
         let resultTitle = document.getElementById("resultTitle");
         resultTitle.innerHTML = "Tous les films :<br> Temps de recherche : " + time + "s";
         // Afficher la première page
@@ -98,6 +103,7 @@ function displayAll(){
 
 function displayMostMovies(){
     const queryString = window.location.search;
+    // Vérifie si le paramètre "MostMovies" est présent dans l'URL
     if(queryString.includes("MostMovies")){
         let resultTitle = document.getElementById("resultTitle");
         resultTitle.innerHTML = "Réalisateur avec le plus de films :<br> Temps de recherche : 1ms";
@@ -107,8 +113,10 @@ function displayMostMovies(){
 
 function displayFallBack(){
     const queryString = window.location.search;
+    // Vérifie si aucun paramètre n'est présent dans l'URL
     if(queryString.includes("director") === false && queryString.includes("duree") === false && queryString.includes("categorie") === false && queryString.includes("film") === false && queryString.includes("All") === false && queryString.includes("MostMovies") === false){
         let resultTitle = document.getElementById("resultTitle");
+        // Dans ce cas affiche un message d'erreur
         resultTitle.innerHTML = "Aucun parametre trouvé";
     }
 }
@@ -159,16 +167,19 @@ function readFileByName(fileName){
 
 
 // ------- READ AND DISPLAY -------
-
+// Variables globales
 let films = [];
 let currentPage = 1;
 const filmsPerPage = 20;
 
 function readAndDisplay() {
+    // Lit le fichier
     const result = readFileByName("../BackEnd/results.txt");
     // Récupère le tableau de films a partir de la 2eme ligne
     films = result.split("\n");
+    // Retire la première ligne du tableau (temps d'exécution)
     films.shift();
+    // Vérifie si aucun film n'a été trouvé
     if (films.length === 0) {
         let alert = document.getElementById("result");
         alert.innerHTML = "Aucun film trouvé";
@@ -186,12 +197,11 @@ function readAndDisplay() {
     // Retire le dernier élément du tableau (vide)
     films.pop();
 
-    films.filter[Boolean];
 
     // Split chaque élément du tableau en un tableau de 4 éléments
     films = films.map(film => film.split(";"));
 
-    //sort in alphabetical order by title without the .localeCompare
+    // Trie le tableau par ordre alphabétique
     films.sort((a, b) => a[1].localeCompare(b[1]));
 
 
@@ -217,6 +227,7 @@ function displayPage(page) {
     let cardIndex = 0;
 
     for (let i = 0; i < currentFilms.length; i++) {
+        // Récupérer le conteneur
         let container = document.getElementById("resultContentContainer" + containerIndex);
         let resultContent = container.querySelector(".resultContent");
 
@@ -227,6 +238,7 @@ function displayPage(page) {
             resultContent = container.querySelector(".resultContent");
         }
 
+        // Ajouter la carte au conteneur
         addCard(resultContent, currentFilms[i][0], currentFilms[i][1], currentFilms[i][2], currentFilms[i][3]);
 
         cardIndex++;
@@ -240,6 +252,7 @@ function clearContainers() {
     for (let i = 1; i <= 4; i++) {
         let container = document.getElementById("resultContentContainer" + i);
         let resultContent = container.querySelector(".resultContent");
+        // Vider le conteneur
         resultContent.innerHTML = "";
     }
 }
@@ -253,6 +266,7 @@ function updatePagination(page) {
     let previousButton = document.getElementById("previousButton");
     let nextButton = document.getElementById("nextButton");
 
+    // Afficher ou masquer les boutons de navigation en fonction de la page actuelle
     if (page === 1) {
         previousButton.style.display = "none";
     } else {
@@ -267,6 +281,7 @@ function updatePagination(page) {
 }
 
 function goToPreviousPage() {
+    // Aller à la page précédente si la page actuelle n'est pas la première
     if (currentPage > 1) {
         currentPage--;
         displayPage(currentPage);
@@ -274,6 +289,7 @@ function goToPreviousPage() {
 }
 
 function goToNextPage() {
+    // Aller à la page suivante si la page actuelle n'est pas la dernière
     if (currentPage < totalPages) {
         currentPage++;
         displayPage(currentPage);
@@ -281,16 +297,19 @@ function goToNextPage() {
 }
 
 function goToFirstPage() {
+    // Aller à la première page
     currentPage = 1;
     displayPage(currentPage);
 }
 
 function goToLastPage() {
+    // Aller à la dernière page
     currentPage = totalPages;
     displayPage(currentPage);
 }
 
 function addCard(container, real, title, duree, categorie){
+    // Création de la carte
     let card = document.createElement("div");
     card.classList.add("card");
     card.innerHTML = "Titre : " + title + "<br>Realisateur : " + real + "<br>Durée : " + duree + "<br>Categorie : " + categorie;
@@ -300,11 +319,12 @@ function addCard(container, real, title, duree, categorie){
 
 
 // -------------------------
-//Appel des fonctions
 
 const result = readFileByName("../BackEnd/results.txt");
 // Récupère la première ligne du fichier
 const firstLine = result.split("\n")[0];
+
+//Appel des fonctions
 displayDirector(firstLine);
 displayDuree(firstLine);
 displayCategorie(firstLine);

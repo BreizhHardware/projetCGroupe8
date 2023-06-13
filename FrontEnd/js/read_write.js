@@ -15,7 +15,7 @@ function writeFile(id_form, func) {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-
+    // Vérification de la création du fichier
     return new Promise((resolve, reject) => {
         checkFile(resolve);
     });
