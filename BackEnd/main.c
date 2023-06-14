@@ -26,6 +26,7 @@ int main() {
     }
 
     deleteFilmotheque(filmo, tableau);
+    printf("Good bye !\n");
     return 0;
 }
 
