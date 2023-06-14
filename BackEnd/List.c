@@ -91,6 +91,10 @@ struct List* copyList(struct List* l){
 
 //Fonction qui permet d'afficher une liste dans la console 
 void printList(struct List* l){
+    if(l==NULL){
+        pritnf("list is NULL\n");
+        return;
+    }
     if(l->size == 0){   //On vérifie si la liste est vide
         printf("List is empty\n");
         return;
