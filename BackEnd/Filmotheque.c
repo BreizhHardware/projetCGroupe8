@@ -6,24 +6,25 @@
 #include "NodeTrie.h"
 #include "List.h"
 
-
-
-
+//Fonction qui créer une Filmotheque vide
 struct Filmotheque* createEmptyFilmo(){
-    struct Filmotheque* filmo = malloc(sizeof(struct Filmotheque));
+    struct Filmotheque* filmo = malloc(sizeof(struct Filmotheque));     //On alloue de la mémoire pour pouvoir la stocker
     if(filmo == NULL){
         printf("error malloc");
         return NULL;
     }
+    //On initialise nos données au valeur par défaut
     filmo -> director = createEmptyNodeTrie();
     filmo -> maxMovies = 0;
     filmo -> directorMax = NULL;
     return filmo;
 }
 
+//Fonction qui ajoute un film à la filmotheque, plus particulierement dans le NodeTrie
 void addMovie(struct Filmotheque* filmotheque, struct Movie* movie) {
-    struct NodeTrie* node = filmotheque->director;
+    struct NodeTrie* node = filmotheque->director;      
     char* director = movie-> director;
+    //On défini les caractères spéciaux, dans des places spécifiques pour chaque
     for (int i = 0; i < strlen(director); i++) {
         if (director[i] == '-') {
             if (node->children[26] == NULL) {
@@ -43,6 +44,7 @@ void addMovie(struct Filmotheque* filmotheque, struct Movie* movie) {
             }
             node = node->children[28];
         }
+        //On initialise les lettres basiques dans notre NodeTrie
         else if (node->children[director[i] - 'a'] == NULL) {
             node->children[director[i] - 'a'] = createEmptyNodeTrie();
             node = node->children[director[i] - 'a'];
@@ -55,26 +57,33 @@ void addMovie(struct Filmotheque* filmotheque, struct Movie* movie) {
             node = node->children[director[i] - 'a'];
         }
     }
-
+    //Si le nom rentré éxiste déja on addFirst du film, dans la liste déja créée
     if (node->isName) {
         addFirst(node->movie,movie);
     }
+    //Autrement on créer une liste et on ajoute le film dedans
     else {
         node->isName = true;
         node->movie = createEmptyList();
         addFirst(node->movie,movie);
     }
+    //Initialise le directorMax et maxMovies
     if (node->movie->size > filmotheque->maxMovies) {
         filmotheque->maxMovies = node->movie->size;
         filmotheque->directorMax = node->movie->head->movie->director;
     }
 }
+
+//Fonction qui permet d'ajouter un film dans notre table
 struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie){
+    //Pour pouvoir avoir la place dans la list il nous faut un int
     int realTime = atoi(movie->time);
+    //Si c'est vide on créer une liste et on ajoute le film dedans
     if(table[realTime] == NULL){
         table[realTime] = createEmptyList();
         addFirst(table[realTime],movie);
     }
+    //On ajoute juste dans la liste le film autrement
     else{
         addFirst(table[realTime],movie);
     }
@@ -82,42 +91,54 @@ struct List* addMovieInTable(struct List* table[LENGTH],struct Movie* movie){
     return table[realTime];
 }
 
+//Fonction qui nous permet d'initialiser notre Filmotheque ainsi que notre Tableau
 void initFilmo(char* nameFile,struct List** table,struct Filmotheque* filmo){
+    //Ouverture de la BDD
     FILE *fichier;
     fichier = fopen(nameFile, "r");
-
+    //Vérification si on a bien ouvert la BDD
     if (fichier == NULL) {
         printf("Erreur lors de l'ouverture du fichier");
         exit(1);
     }
-
-
+    //Contient la ligne ou l'on est rendu dans le fichier
     char line[NUMBER_OF_CHAR];
-
+    //Boucle pour lire tout le fichier
     while(fgets(line,sizeof(line),fichier) != NULL){
+        //Récupère la string avant le ;
         char* director = (strtok(line, ";"));
+        //Mettre en minuscule pour pouvoir l'ajouter dans le NodeTrie
         toLowercase(director);
         char* name = strtok(NULL, ";");
         char* time = strtok(NULL, ";");
         char* category = strtok(NULL, ";");
-        //Remove the \r\n at the end of the line
+        //Enlever le \n\r à la fin pour le remplacer par un \0
         category[strlen(category) - 2] = '\0';
+        //On créer le film pour après l'ajouter dans les structures
         struct Movie* movie = createMovie(director, name, time,category);
+        //Ajout dans la table
         addMovieInTable(table,movie);
+        //Ajout dans le NodeTrie
         addMovie(filmo,movie);
     }
     fclose(fichier);
 }
 
+//Fonction qui filtre les film par leur réalisateur
 struct List* searchByDirector(struct Filmotheque* filmotheque, char* director){
+    //List que l'on va renvoyer
     struct List* copy = createEmptyList();
+    //On rentre dans le NodeTrie
     struct NodeTrie* node = filmotheque->director;
+    //On boucle pour trouver notre réalisateur
     for(int i = 0; i < strlen(director); i++){
         if(node->children[director[i] - 'a'] == NULL){
             return copy;
         }
+        //On avance dans le NodeTrie
         node = node->children[director[i] - 'a'];
     }
+    //Si on arrive au bout de son nom on copie sa liste pour la renvoyer
     if(node->isName){
         copy = copyList(node->movie);
         return copy;
@@ -125,13 +146,18 @@ struct List* searchByDirector(struct Filmotheque* filmotheque, char* director){
     return copy;
 }
 
+//Fonction qui filte par temps
 struct List* searchByTime(struct List* table[LENGTH], char* time){
+    //On prend le int et on renvoie juste la case correspondante
     int realTime = atoi(time);
     return table[realTime];
 }
 
+//Fonction qui filter par categorie
 struct List* searchByCategory(struct List* table[LENGTH], char* category){
+    //Liste que l'on va renvoyer
     struct List* result = createEmptyList();
+    //On boucle pour trouver la categorie correspondante
     for(int i = 0;i<LENGTH;i++){
         if(table[i] != NULL){
             struct Cell* inter = table[i]->head;
@@ -146,10 +172,13 @@ struct List* searchByCategory(struct List* table[LENGTH], char* category){
     return result;
 }
 
+//Fonction qui recherche par le nom d'un film
 struct List* searchByFilm(struct List* table[LENGTH], char* name){
     struct List* result = createEmptyList();
+    //Allocation de la mémoire
     char *titleLower = calloc(sizeof(char), LENGTH);
     char *searchLower = calloc(sizeof(char), LENGTH);
+    //On boucle pour trouver le film
     for(int i=0; i<LENGTH; i++){
         if(table[i] != NULL){
             struct Cell* inter = table[i]->head;
@@ -172,7 +201,7 @@ struct List* searchByFilm(struct List* table[LENGTH], char* name){
     return result;
 }
 
-
+//Fonction qui peremet de mettre un mot en minuscule
 void toLowercase(char* str) {
     int i;
     for (i = 0; str[i] != '\0'; i++) {
@@ -180,6 +209,7 @@ void toLowercase(char* str) {
     }
 }
 
+//Fonction qui renvoie le Director 
 struct List* searchRealMostMovie(struct Filmotheque* filmo){
     char* directorMax = filmo->directorMax;
     struct List* result = searchByDirector(filmo,directorMax);
@@ -290,6 +320,17 @@ void printResultInFile(struct List* result, double time){
     }
 
     fprintf(fichier,"%f\n",time);
+    if(result ==NULL){
+       fclose(fichier);
+        FILE *fichier2;
+        fichier2 = fopen("ready.txt", "w");
+        if (fichier2 == NULL) {
+            printf("Erreur lors de l'ouverture du fichier ready\n");
+            exit(1);
+        }
+        fclose(fichier2);
+        return;
+    }
     struct Cell* inter = result->head;
     int length = result->size;
     for(int i=0; i<length; i++){
@@ -302,6 +343,10 @@ void printResultInFile(struct List* result, double time){
     //ecrit ready.txt pour dire que le fichier est pret a etre lu
     FILE *fichier2;
     fichier2 = fopen("ready.txt", "w");
+    if(fichier2 == NULL){
+        printf("Erreur lors de l'ouverture du fichier ready\n");
+        exit(1);
+    }
     fclose(fichier2);
 }
 
