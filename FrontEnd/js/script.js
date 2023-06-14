@@ -46,6 +46,7 @@ function validateformDuree(){
     }
 }
 
+/*
 function validateformCategorie(){
     // Récupérer la catégorie
     let categorie = document.getElementById("categorie").value;
@@ -67,6 +68,7 @@ function validateformCategorie(){
         lockCategorieButton();
     }
 }
+*/
 
 function validateformFilm(){
     // Récupérer le nom du film
@@ -100,10 +102,13 @@ function lockDureeButton(){
     document.getElementById("dureeButton").disabled = true;
 }
 
+/*
 function lockCategorieButton(){
     // desactiver le bouton
     document.getElementById("categorieButton").disabled = true;
 }
+
+ */
 
 function lockFilmButton(){
     // desactiver le bouton
@@ -113,11 +118,11 @@ function lockFilmButton(){
 function unlockDirectorButton(){
     // vider les autres champs
     document.getElementById("duree").value = "";
-    document.getElementById("categorie").value = "";
+    //document.getElementById("categorie").value = "";
     document.getElementById("film").value = "";
     // desactiver les autres boutons
     document.getElementById("dureeButton").disabled = true;
-    document.getElementById("categorieButton").disabled = true;
+    //document.getElementById("categorieButton").disabled = true;
     document.getElementById("filmButton").disabled = true;
     // activer le bouton
     document.getElementById("directorButton").disabled = false;
@@ -126,16 +131,17 @@ function unlockDirectorButton(){
 function unlockDureeButton(){
     // vider les autres champs
     document.getElementById("director").value = "";
-    document.getElementById("categorie").value = "";
+    //document.getElementById("categorie").value = "";
     document.getElementById("film").value = "";
     // desactiver les autres boutons
     document.getElementById("directorButton").disabled = true;
-    document.getElementById("categorieButton").disabled = true;
+    //document.getElementById("categorieButton").disabled = true;
     document.getElementById("filmButton").disabled = true;
     // activer le bouton
     document.getElementById("dureeButton").disabled = false;
 }
 
+/*
 function unlockCategorieButton(){
     // vider les autres champs
     document.getElementById("director").value = "";
@@ -149,15 +155,17 @@ function unlockCategorieButton(){
     document.getElementById("categorieButton").disabled = false;
 }
 
+ */
+
 function unlockFilmButton(){
     // vider les autres champs
     document.getElementById("director").value = "";
     document.getElementById("duree").value = "";
-    document.getElementById("categorie").value = "";
+    //document.getElementById("categorie").value = "";
     // desactiver les autres boutons
     document.getElementById("directorButton").disabled = true;
     document.getElementById("dureeButton").disabled = true;
-    document.getElementById("categorieButton").disabled = true;
+    //document.getElementById("categorieButton").disabled = true;
     // activer le bouton
     document.getElementById("filmButton").disabled = false;
 }
@@ -165,5 +173,5 @@ function unlockFilmButton(){
 //Ajouter les événements pour la validation
 document.getElementById("director").addEventListener("keyup", validateformDirector);
 document.getElementById("duree").addEventListener("keyup", validateformDuree);
-document.getElementById("categorie").addEventListener("keyup", validateformCategorie);
+//document.getElementById("categorie").addEventListener("keyup", validateformCategorie);
 document.getElementById("film").addEventListener("keyup", validateformFilm);

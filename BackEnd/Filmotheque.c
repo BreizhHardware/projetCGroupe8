@@ -267,6 +267,7 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         deleteFile();
         return 0;
     }
+    /*
     else if (strcmp(fonction, "searchByCategory") == 0){
         clock_t start;
         start = clock();
@@ -278,6 +279,7 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
         deleteFile();
         return 0;
     }
+     */
     else if (strcmp(fonction, "searchByFilm") == 0){
         clock_t start;
         start = clock();

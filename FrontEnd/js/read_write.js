@@ -87,6 +87,7 @@ document.getElementById('dureeButton').addEventListener('click', function() {
         });
 });
 
+/*
 document.getElementById('categorieButton').addEventListener('click', function() {
     writeFile('formCategorie', 'searchByCategorie')
         .then(() => {
@@ -96,6 +97,8 @@ document.getElementById('categorieButton').addEventListener('click', function() 
         .catch((error) => {
         });
 });
+
+ */
 
 document.getElementById('filmButton').addEventListener('click', function() {
     writeFile('formFilm', 'searchByFilm')

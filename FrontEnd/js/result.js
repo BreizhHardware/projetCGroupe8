@@ -30,6 +30,7 @@ function displayDuree(time){
     }
 }
 
+/*
 function displayCategorie(time){
     const queryString = window.location.search;
     if(queryString.includes("categorie")){
@@ -40,6 +41,8 @@ function displayCategorie(time){
         readAndDisplay();
     }
 }
+*/
+
 
 function displayFilm(time){
     const queryString = window.location.search;
@@ -149,6 +152,20 @@ function writeFile(id_form,func) {
     // text1.submit();
 }
 // -------------------------
+
+// ----------WRITE FILE STOP----------
+
+function writeFileStop(func){
+    let element = document.createElement('a');
+    let textToSave = func;
+
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textToSave));
+    element.setAttribute('download', 'requests.txt');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
 
 
 // ------- READ FILE -------
@@ -327,7 +344,7 @@ const firstLine = result.split("\n")[0];
 //Appel des fonctions
 displayDirector(firstLine);
 displayDuree(firstLine);
-displayCategorie(firstLine);
+//displayCategorie(firstLine);
 displayFilm(firstLine);
 displayMostMovies(firstLine);
 displayFallBack(firstLine);

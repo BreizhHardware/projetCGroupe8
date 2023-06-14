@@ -1,1 +1,1 @@
-searchByTime;69
+searchByDirector;Olsson
