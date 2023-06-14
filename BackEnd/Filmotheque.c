@@ -49,10 +49,6 @@ void addMovie(struct Filmotheque* filmotheque, struct Movie* movie) {
             node->children[director[i] - 'a'] = createEmptyNodeTrie();
             node = node->children[director[i] - 'a'];
         }
-        else if (node->children[director[i] - 'a'] == NULL) {
-            node->children[director[i] - 'a'] = createEmptyNodeTrie();
-            node = node->children[director[i] - 'a'];
-        }
         else {
             node = node->children[director[i] - 'a'];
         }
@@ -98,7 +94,7 @@ void initFilmo(char* nameFile,struct List** table,struct Filmotheque* filmo){
     fichier = fopen(nameFile, "r");
     //Vérification si on a bien ouvert la BDD
     if (fichier == NULL) {
-        printf("Erreur lors de l'ouverture du fichier");
+        printf("Erreur lors de l'ouverture du fichier BD\n");
         exit(1);
     }
     //Contient la ligne ou l'on est rendu dans le fichier
@@ -113,7 +109,7 @@ void initFilmo(char* nameFile,struct List** table,struct Filmotheque* filmo){
         char* time = strtok(NULL, ";");
         char* category = strtok(NULL, ";");
         //Enlever le \n\r à la fin pour le remplacer par un \0
-        category[strlen(category) - 2] = '\0';
+        category[strlen(category) - 1] = '\0';
         //On créer le film pour après l'ajouter dans les structures
         struct Movie* movie = createMovie(director, name, time,category);
         //Ajout dans la table
@@ -132,11 +128,41 @@ struct List* searchByDirector(struct Filmotheque* filmotheque, char* director){
     struct NodeTrie* node = filmotheque->director;
     //On boucle pour trouver notre réalisateur
     for(int i = 0; i < strlen(director); i++){
-        if(node->children[director[i] - 'a'] == NULL){
-            return copy;
+        //On vérifie si le réalisateur existe
+        //Verifie si la lettre est un espace
+        if(director[i] == ' '){
+            if(node->children[28] == NULL){
+                return copy;
+            }
+            //On avance dans le NodeTrie
+            node = node->children[28];
         }
-        //On avance dans le NodeTrie
-        node = node->children[director[i] - 'a'];
+        //Verifie si la lettre est un -
+        else if(director[i] == '-'){
+            if(node->children[26] == NULL){
+                return copy;
+            }
+            //On avance dans le NodeTrie
+            node = node->children[26];
+        }
+        //Verifie si la lettre est un '
+        else if(director[i] == '\''){
+            if(node->children[27] == NULL){
+                return copy;
+            }
+            //On avance dans le NodeTrie
+            node = node->children[27];
+        }
+        else if(node->children[director[i] - 'a'] == NULL){
+            if(node->children[director[i] - 'a'] == NULL){
+                return copy;
+            }
+            //On avance dans le NodeTrie
+            node = node->children[director[i] - 'a'];
+        }
+        else{
+            node = node->children[director[i] - 'a'];
+        }
     }
     //Si on arrive au bout de son nom on copie sa liste pour la renvoyer
     if(node->isName){
@@ -203,8 +229,7 @@ struct List* searchByFilm(struct List* table[LENGTH], char* name){
 
 //Fonction qui peremet de mettre un mot en minuscule
 void toLowercase(char* str) {
-    int i;
-    for (i = 0; str[i] != '\0'; i++) {
+    for (int i = 0; str[i] != '\0'; i++) {
         str[i] = tolower(str[i]);
     }
 }
@@ -223,14 +248,14 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
     fichier = fopen(request, "r");
 
     if (fichier == NULL) {
-        printf("Erreur lors de l'ouverture du fichier2");
+        printf("Erreur lors de l'ouverture du fichier de requête\n");
         exit(1);
     }
 
     char line[NUMBER_OF_CHAR];
 
-    char *fonction;
-    char *argument;
+    char* fonction;
+    char* argument;
     
     //On récupère la fonction + l'argument
     while (fgets(line, sizeof(line), fichier) != NULL) {
@@ -322,13 +347,14 @@ void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGT
     free(filmotheque);
 }
 
+//Fonction qui permet de créer les fichier ready et result
 void printResultInFile(struct List* result, double time){
     //On ouvre le fichier result
     FILE *fichier;
     fichier = fopen("results.txt", "w");
 
     if (fichier == NULL) {
-        printf("Erreur lors de l'ouverture du fichier");
+        printf("Erreur lors de l'ouverture du fichier result\n");
         exit(1);
     }
     
@@ -350,7 +376,8 @@ void printResultInFile(struct List* result, double time){
     for(int i=0; i<length; i++){
         //Pas supprimer le dernier caractere de categorie 
         int categoryLength = strlen(inter->movie->category);
-        fprintf(fichier,"%s;%s;%s;%.*s\n",inter->movie->director,inter->movie->name,inter->movie->time,categoryLength,inter->movie->category);
+        //On print le film dans le fichier result, composé de son titre, son réalisateur, sa catégorie et sa durée
+        fprintf(fichier,"%s;%s;%s;%.*s\n",inter->movie->name,inter->movie->director,inter->movie->time,categoryLength+1,inter->movie->category);
         inter = inter->next;
     }
     fclose(fichier);

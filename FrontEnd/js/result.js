@@ -128,30 +128,7 @@ function returnToHome(){
     window.location.href = "index.html";
 }
 
-// ------- WRITE FILE -------
 
-function writeFile(id_form,func) {
-
-    let element = document.createElement('a');
-
-    let text1 = document.getElementById(id_form);
-    let count = text1.elements.length;
-    let textToSave = func;
-    for(let i = 0;i<count-1;i++){
-        textToSave += ";" + text1[i].value;
-    }
-
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textToSave));
-    element.setAttribute('download', 'request.txt');
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-
-    // text1.submit();
-}
-// -------------------------
 
 // ----------WRITE FILE STOP----------
 
@@ -197,7 +174,7 @@ function readAndDisplay() {
     // Retire la première ligne du tableau (temps d'exécution)
     films.shift();
     // Vérifie si aucun film n'a été trouvé
-    if (films.length === 0) {
+    if (films.length <= 1) {
         let alert = document.getElementById("result");
         alert.innerHTML = "Aucun film trouvé";
         alert.style.display = "block";

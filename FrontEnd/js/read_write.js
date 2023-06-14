@@ -43,7 +43,7 @@ function readFileByName(fileName){
         setTimeout(() => {
             xhr.open("GET", fileName, false);
             xhr.send(null);
-        });
+        }, 1000);
 
     }while(xhr.status === 404);
 
