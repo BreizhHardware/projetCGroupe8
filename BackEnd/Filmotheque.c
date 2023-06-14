@@ -216,8 +216,9 @@ struct List* searchRealMostMovie(struct Filmotheque* filmo){
     return result;
 }
 
-
+//Fonction qui permet de lire les reqêtes éffectué par le client
 int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque* filmo) {
+    //On ouvre la request
     FILE *fichier;
     fichier = fopen(request, "r");
 
@@ -230,22 +231,28 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
 
     char *fonction;
     char *argument;
-
+    
+    //On récupère la fonction + l'argument
     while (fgets(line, sizeof(line), fichier) != NULL) {
         fonction = strtok(line, ";");
         argument = strtok(NULL, ";");
     }
 
-
+    //On vérifie qu'elle fonction est éxécuté
     if (strcmp(fonction, "searchByDirector") == 0) {
+        //Pour avoir le temps d'éxec
         clock_t start;
+        //En minuscule car dans notre NodeTrie tout est en minuscule
         toLowercase(argument);
         start = clock();
         struct List* result = searchByDirector(filmo, argument);
         start = clock() - start;
         double time_taken = ((double) start) / CLOCKS_PER_SEC;
+        //On print le result dans le fichier result.txt
         printResultInFile(result, time_taken);
+        //Pour être sure que le result est lis
         delay(2);
+        //On supprime tout les fichiers request et result
         deleteFile();
         return 0;
     }
@@ -301,16 +308,20 @@ int readRequest(char* request, struct List* tableau[LENGTH], struct Filmotheque*
     return 0;
 }
 
+//Fonction qui supprime la Filmotheque
 void deleteFilmotheque(struct Filmotheque* filmotheque, struct List* table[LENGTH]){
-
+    //On delete d'abord toutes les listes
     for(int i = 0; i < LENGTH; i++){
         deleteList(&table[i]);
     }
+    //Après on delete le NodeTrie
     deleteNodeTrie(&filmotheque->director);
+    //Et on peut après free notre structure
     free(filmotheque);
 }
 
 void printResultInFile(struct List* result, double time){
+    //On ouvre le fichier result
     FILE *fichier;
     fichier = fopen("results.txt", "w");
 
@@ -318,7 +329,8 @@ void printResultInFile(struct List* result, double time){
         printf("Erreur lors de l'ouverture du fichier");
         exit(1);
     }
-
+    
+    //On vérifie si la liste est NULL
     fprintf(fichier,"%f\n",time);
     if(result ==NULL){
        fclose(fichier);
@@ -334,7 +346,7 @@ void printResultInFile(struct List* result, double time){
     struct Cell* inter = result->head;
     int length = result->size;
     for(int i=0; i<length; i++){
-        //Don't supr the last charactere of the category
+        //Pas supprimer le dernier caractere de categorie 
         int categoryLength = strlen(inter->movie->category);
         fprintf(fichier,"%s;%s;%s;%.*s\n",inter->movie->director,inter->movie->name,inter->movie->time,categoryLength,inter->movie->category);
         inter = inter->next;
@@ -350,6 +362,7 @@ void printResultInFile(struct List* result, double time){
     fclose(fichier2);
 }
 
+//Fonction qui permet de delete tout les fichiers requests + results
 void deleteFile(){
     char* ready_results = "ready.txt";
     char* results = "results.txt";
@@ -360,6 +373,7 @@ void deleteFile(){
     return;
 }
 
+//Fonction qui fait un délai
 void delay(int i){
     clock_t start,end;
     start = clock();
